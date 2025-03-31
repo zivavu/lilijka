@@ -1,24 +1,12 @@
-<script lang="ts">
-	import { colors, type ColorName } from '$lib/colors';
-
-	// Component props with type support for color names
-	export let bgColor: ColorName = 'parchment';
-	export let textColor: ColorName = 'darkSepia';
-</script>
-
 <div class="color-demo">
 	<h2>Color Palette Demo</h2>
 	<div class="color-grid">
-		<div class="color-box" style="background-color: {colors.primary}">Primary (Terracotta)</div>
-		<div class="color-box" style="background-color: {colors.secondary}">Secondary (Pale Gold)</div>
-		<div class="color-box" style="background-color: {colors.cream}">Cream</div>
-		<div class="color-box" style="background-color: {colors.coffee}">Coffee</div>
-		<div class="color-box" style="background-color: {colors.parchment}">Parchment</div>
-		<div class="color-box" style="background-color: {colors.darkSepia}">Dark Sepia</div>
-	</div>
-
-	<div class="custom-color" style="background-color: {colors[bgColor]}; color: {colors[textColor]}">
-		This box uses the colors passed as props: {bgColor} background with {textColor} text
+		<div class="color-box" style="background-color: var(--primary)">Primary (Terracotta)</div>
+		<div class="color-box" style="background-color: var(--secondary)">Secondary (Pale Gold)</div>
+		<div class="color-box" style="background-color: var(--cream)">Cream</div>
+		<div class="color-box" style="background-color: var(--coffee)">Coffee</div>
+		<div class="color-box" style="background-color: var(--parchment)">Parchment</div>
+		<div class="color-box" style="background-color: var(--dark-sepia)">Dark Sepia</div>
 	</div>
 </div>
 
@@ -65,12 +53,5 @@
 	.color-box:nth-child(3),
 	.color-box:nth-child(5) {
 		color: var(--dark-sepia);
-	}
-
-	.custom-color {
-		padding: 2rem;
-		border-radius: 4px;
-		text-align: center;
-		font-weight: bold;
 	}
 </style>

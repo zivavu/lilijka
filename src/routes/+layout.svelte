@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '$lib/styles/colors.css';
+	let { children } = $props();
 </script>
 
-<slot />
+{@render children?.()}
