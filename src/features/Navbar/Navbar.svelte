@@ -9,9 +9,9 @@
 		</div>
 
 		<div class="nav-links">
-			<a href="/" class={activeRoute === '/' ? 'active' : ''}>Home</a>
-			<a href="/about" class={activeRoute === '/about' ? 'active' : ''}>About</a>
-			<a href="/contact" class={activeRoute === '/contact' ? 'active' : ''}>Contact</a>
+			<a href="/" class={activeRoute === '/' ? 'active' : ''}>Strona główna</a>
+			<a href="/about" class={activeRoute === '/about' ? 'active' : ''}>O mnie</a>
+			<a href="/contact" class={activeRoute === '/contact' ? 'active' : ''}>Kontakt</a>
 		</div>
 	</div>
 </nav>

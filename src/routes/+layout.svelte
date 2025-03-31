@@ -19,7 +19,7 @@
 
 	<footer>
 		<div class="container">
-			<p>© {new Date().getFullYear()} Lilijka Blog. All rights reserved.</p>
+			<p>© {new Date().getFullYear()} Lilijka Blog. Wszelkie prawa zastrzeżone.</p>
 		</div>
 	</footer>
 </div>

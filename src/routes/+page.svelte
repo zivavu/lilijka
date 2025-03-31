@@ -5,43 +5,43 @@
 	const tags = [
 		{
 			id: '1',
-			name: 'Vintage Fashion',
-			description: 'Fashion through the decades'
+			name: 'Moda vintage',
+			description: 'Styl i ubiór minionych dekad'
 		},
 		{
 			id: '2',
-			name: 'Antique Furniture',
-			description: 'Classic designs & woodwork'
+			name: 'Antyczne meble',
+			description: 'Klasyczne wzornictwo i rzemiosło'
 		},
 		{
 			id: '3',
-			name: 'Classic Literature',
-			description: 'Timeless books & authors'
+			name: 'Literatura klasyczna',
+			description: 'Ponadczasowe dzieła i autorzy'
 		},
 		{
 			id: '4',
-			name: 'Photography',
-			description: 'Old cameras & techniques'
+			name: 'Fotografia',
+			description: 'Dawne aparaty i techniki'
 		},
 		{
 			id: '5',
-			name: 'Historical Events',
-			description: 'Moments that shaped history'
+			name: 'Wydarzenia historyczne',
+			description: 'Momenty kształtujące dzieje'
 		},
 		{
 			id: '6',
-			name: 'Vinyl Records',
-			description: 'Music on wax & turntables'
+			name: 'Płyty winylowe',
+			description: 'Muzyka na winylu i gramofony'
 		},
 		{
 			id: '7',
-			name: 'Retro Gaming',
-			description: 'Nostalgia in pixel form'
+			name: 'Retro gry',
+			description: 'Nostalgia w pikselowej formie'
 		},
 		{
 			id: '8',
-			name: 'Typewriters',
-			description: 'Mechanical writing wonders'
+			name: 'Maszyny do pisania',
+			description: 'Mechaniczne cuda na papierze'
 		}
 	];
 
@@ -58,8 +58,8 @@
 <div class="home-page">
 	<section class="hero vintage-paper">
 		<div class="container">
-			<h1>Welcome to Lilijka</h1>
-			<p class="subtitle">A vintage-inspired journey through time and nostalgia</p>
+			<h1>Witaj na Lilijce</h1>
+			<p class="subtitle">Sentymentalna podróż przez czas i wspomnienia</p>
 		</div>
 	</section>
 
@@ -69,7 +69,7 @@
 		<div class="selected-tags-container">
 			<div class="container">
 				<div class="selected-tags">
-					<span class="filter-label">Filtering by:</span>
+					<span class="filter-label">Filtrujesz według:</span>
 					{#each selectedTags as tag}
 						<span class="selected-tag">{tag}</span>
 					{/each}
