@@ -1,4 +1,5 @@
 <script lang="ts">
+	import VintageIconsShowcase from '../components/ui/VintageIconsShowcase.svelte';
 	import TagSelector from '../features/TagSelector/TagSelector.svelte';
 
 	// Mock tags data
@@ -58,7 +59,7 @@
 <div class="home-page">
 	<section class="hero vintage-paper">
 		<div class="container">
-			<h1>Witaj na Lilijce</h1>
+			<h1>Witaj w Lilijce</h1>
 			<p class="subtitle">Sentymentalna podróż przez czas i wspomnienia</p>
 		</div>
 	</section>
@@ -77,6 +78,12 @@
 			</div>
 		</div>
 	{/if}
+
+	<section class="icons-demo">
+		<div class="container">
+			<VintageIconsShowcase />
+		</div>
+	</section>
 </div>
 
 <style>
@@ -129,5 +136,15 @@
 		font-size: 0.85rem;
 		font-family: 'Georgia', serif;
 		display: inline-block;
+	}
+
+	.icons-demo {
+		margin: 2rem 0;
+	}
+
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 1rem;
 	}
 </style>

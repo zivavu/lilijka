@@ -28,43 +28,29 @@
 			.map(({ selected, ...rest }) => rest);
 		dispatch('tagsSelected', { selectedTags });
 	}
-
-	function showDescription(id: string) {
-		const tooltip = document.getElementById(`tooltip-${id}`);
-		if (tooltip) tooltip.classList.add('visible');
-	}
-
-	function hideDescription(id: string) {
-		const tooltip = document.getElementById(`tooltip-${id}`);
-		if (tooltip) tooltip.classList.remove('visible');
-	}
 </script>
 
 <div class="tag-selector">
 	<h2>Zakątki lasu</h2>
 	<div class="tag-container">
 		{#each selectableTags as tag}
-			<button
-				class="tag {tag.selected ? 'selected' : ''}"
-				onclick={() => toggleTag(tag.id)}
-				onmouseenter={() => showDescription(tag.id)}
-				onmouseleave={() => hideDescription(tag.id)}
-			>
-				<div class="tag-content">
-					<span class="leaf-icon">❦</span>
-					<h3>{tag.name}</h3>
-				</div>
-				{#if tag.description}
-					<div class="tooltip" id="tooltip-{tag.id}">
-						{tag.description}
+			<div class="tag-wrapper">
+				<button
+					class="tag {tag.selected ? 'selected' : ''}"
+					onclick={() => toggleTag(tag.id)}
+					data-description={tag.description}
+				>
+					<div class="tag-content">
+						<span class="leaf-icon">❦</span>
+						<h3>{tag.name}</h3>
 					</div>
-				{/if}
-				<div class="leaf-mark" class:visible={tag.selected}>
-					<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M6,12 Q12,5 18,12 Q12,19 6,12 Z" fill="currentColor" />
-					</svg>
-				</div>
-			</button>
+					<div class="leaf-mark" class:visible={tag.selected}>
+						<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M6,12 Q12,5 18,12 Q12,19 6,12 Z" fill="currentColor" />
+						</svg>
+					</div>
+				</button>
+			</div>
 		{/each}
 	</div>
 	<div class="forest-footer"></div>
@@ -151,11 +137,16 @@
 		margin: 0 auto;
 	}
 
+	.tag-wrapper {
+		position: relative;
+		margin: 16px 0;
+	}
+
 	.tag {
 		position: relative;
 		background-color: var(--background-light);
 		border: none;
-		width: 150px;
+		width: 160px;
 		height: 60px;
 		padding: 0;
 		cursor: pointer;
@@ -173,9 +164,7 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 100%;
-		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='%239C92AC' fill-opacity='0.06' d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z'%3E%3C/path%3E%3C/svg%3E");
-		opacity: 0.3;
+		opacity: 1;
 	}
 
 	.tag::after {
@@ -188,6 +177,43 @@
 		border: 1px dashed var(--secondary-dark);
 		opacity: 0.4;
 		pointer-events: none;
+	}
+
+	.tag[data-description]:hover::before {
+		content: attr(data-description);
+		position: absolute;
+		top: -10px;
+		left: 50%;
+		transform: translateX(-50%) translateY(-100%);
+		width: max-content;
+		max-width: 220px;
+		background-color: var(--background-light);
+		color: var(--coffee);
+		font-size: 0.8rem;
+		padding: 0.6rem 0.8rem;
+		text-align: center;
+		border-radius: 2px;
+		box-shadow:
+			0 2px 6px rgba(0, 0, 0, 0.1),
+			inset 0 0 0 1px var(--secondary);
+		z-index: 1000;
+		font-style: italic;
+		line-height: 1.4;
+		border: 1px solid var(--secondary);
+	}
+
+	.tag[data-description]:hover::after {
+		content: '';
+		position: absolute;
+		top: -4px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 0;
+		height: 0;
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+		border-top: 6px solid var(--background-light);
+		z-index: 1000;
 	}
 
 	.tag:hover {
@@ -213,6 +239,7 @@
 		justify-content: center;
 		height: 100%;
 		width: 100%;
+		padding: 0 12px;
 	}
 
 	.leaf-icon {
@@ -230,47 +257,13 @@
 		letter-spacing: 0.5px;
 		font-weight: 400;
 		line-height: 1.2;
-	}
-
-	.tooltip {
-		position: absolute;
-		bottom: -10px;
-		left: 50%;
-		transform: translateX(-50%) translateY(100%) scale(0.9);
-		width: max-content;
-		max-width: 200px;
-		background-color: var(--cream);
-		color: var(--coffee);
-		font-size: 0.8rem;
-		padding: 0.5rem 0.8rem;
-		text-align: center;
-		border-radius: 2px;
-		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-		pointer-events: none;
-		opacity: 0;
-		transition: all 0.2s ease;
-		z-index: 10;
-		font-style: italic;
-		line-height: 1.4;
-		border: 1px solid var(--secondary);
-	}
-
-	.tooltip::before {
-		content: '';
-		position: absolute;
-		top: -6px;
-		left: 50%;
-		transform: translateX(-50%);
-		width: 0;
-		height: 0;
-		border-left: 6px solid transparent;
-		border-right: 6px solid transparent;
-		border-bottom: 6px solid var(--cream);
-	}
-
-	.tooltip.visible {
-		opacity: 1;
-		transform: translateX(-50%) translateY(100%) scale(1);
+		text-overflow: ellipsis;
+		overflow: hidden;
+		display: -webkit-box;
+		line-clamp: 2;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		max-width: 100%;
 	}
 
 	.leaf-mark {
