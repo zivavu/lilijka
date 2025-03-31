@@ -1,12 +1,27 @@
 /* Vintage Color Palette */
 :root {
-	/* Main Colors */
-	--primary: hsl(20, 67%, 47%); /* Terracotta */
-	--secondary: hsl(37, 49%, 69%); /* Pale Gold */
-	--cream: hsl(35, 65%, 89%); /* Soft vintage paper */
-	--coffee: hsl(17, 30%, 34%); /* Deep warm brown */
+	/* Primary (Terracotta) and variants */
+	--primary: hsl(20, 67%, 47%);
+	--primary-light: hsl(20, 65%, 60%);
+	--primary-dark: hsl(20, 70%, 35%);
 
-	/* Background Colors */
-	--parchment: hsl(33, 63%, 95%); /* Light vintage background */
-	--dark-sepia: hsl(15, 47%, 12%); /* Deep dark shade for text */
+	/* Secondary (Pale Gold) and variants */
+	--secondary: hsl(37, 49%, 69%);
+	--secondary-light: hsl(37, 50%, 80%);
+	--secondary-dark: hsl(37, 55%, 55%);
+
+	/* Background colors (based on parchment) */
+	--background: hsl(33, 63%, 95%);
+	--background-light: hsl(33, 63%, 98%);
+	--background-dark: hsl(33, 63%, 90%);
+
+	/* Text colors */
+	--text: var(--dark-sepia);
+	--text-light: hsl(15, 47%, 25%);
+	--text-lighter: hsl(15, 47%, 35%);
+
+	/* Other colors */
+	--cream: hsl(35, 65%, 89%);
+	--coffee: hsl(17, 30%, 34%);
+	--dark-sepia: hsl(15, 47%, 12%);
 }
