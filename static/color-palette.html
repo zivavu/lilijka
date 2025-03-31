@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vintage Color Palette</title>
+		<style>
+			:root {
+				/* Main Colors */
+				--terracotta: #c85627; /* The main rust color from your image */
+				--cream: #f5e6d3; /* Soft vintage paper color */
+				--coffee: #704d3c; /* Deep warm brown */
+
+				--pale-gold: #d4b88c; /* Aged golden tone */
+
+				/* Background Colors */
+				--parchment: #faf3e9; /* Light vintage background */
+				--dark-sepia: #2c1810; /* Deep dark shade for text */
+			}
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: 'Georgia', serif;
+				background-color: var(--parchment);
+				color: var(--dark-sepia);
+				line-height: 1.6;
+				padding: 2rem;
+			}
+
+			.container {
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+
+			h1 {
+				text-align: center;
+				color: var(--coffee);
+				margin-bottom: 2rem;
+				font-size: 2.5rem;
+			}
+
+			.color-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 2rem;
+			}
+
+			.color-card {
+				border-radius: 8px;
+				overflow: hidden;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+				transition: transform 0.3s ease;
+			}
+
+			.color-card:hover {
+				transform: translateY(-5px);
+			}
+
+			.color-display {
+				height: 200px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 1.2rem;
+				color: white;
+				text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+			}
+
+			.color-info {
+				padding: 1rem;
+				background-color: white;
+			}
+
+			.color-name {
+				font-weight: bold;
+				color: var(--coffee);
+				margin-bottom: 0.5rem;
+			}
+
+			.color-hex {
+				color: var(--dusty-blue);
+				font-family: monospace;
+			}
+
+			.color-description {
+				color: var(--dark-sepia);
+				font-size: 0.9rem;
+				margin-top: 0.5rem;
+				font-style: italic;
+			}
+
+			/* Color-specific styles */
+			.terracotta {
+				background-color: var(--terracotta);
+			}
+			.cream {
+				background-color: var(--cream);
+				color: var(--dark-sepia);
+			}
+			.coffee {
+				background-color: var(--coffee);
+			}
+			.pale-gold {
+				background-color: var(--pale-gold);
+			}
+			.parchment {
+				background-color: var(--parchment);
+				color: var(--dark-sepia);
+			}
+			.dark-sepia {
+				background-color: var(--dark-sepia);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Vintage Color Palette</h1>
+			<div class="color-grid">
+				<div class="color-card">
+					<div class="color-display terracotta">Terracotta</div>
+					<div class="color-info">
+						<div class="color-name">Terracotta</div>
+						<div class="color-hex">#C85627</div>
+						<div class="color-description">The main rust color from your image</div>
+					</div>
+				</div>
+
+				<div class="color-card">
+					<div class="color-display cream">Cream</div>
+					<div class="color-info">
+						<div class="color-name">Cream</div>
+						<div class="color-hex">#F5E6D3</div>
+						<div class="color-description">Soft vintage paper color</div>
+					</div>
+				</div>
+
+				<div class="color-card">
+					<div class="color-display coffee">Coffee</div>
+					<div class="color-info">
+						<div class="color-name">Coffee</div>
+						<div class="color-hex">#704D3C</div>
+						<div class="color-description">Deep warm brown</div>
+					</div>
+				</div>
+
+				<div class="color-card">
+					<div class="color-display pale-gold">Pale Gold</div>
+					<div class="color-info">
+						<div class="color-name">Pale Gold</div>
+						<div class="color-hex">#D4B88C</div>
+						<div class="color-description">Aged golden tone</div>
+					</div>
+				</div>
+
+				<div class="color-card">
+					<div class="color-display parchment">Parchment</div>
+					<div class="color-info">
+						<div class="color-name">Parchment</div>
+						<div class="color-hex">#FAF3E9</div>
+						<div class="color-description">Light vintage background</div>
+					</div>
+				</div>
+
+				<div class="color-card">
+					<div class="color-display dark-sepia">Dark Sepia</div>
+					<div class="color-info">
+						<div class="color-name">Dark Sepia</div>
+						<div class="color-hex">#2C1810</div>
+						<div class="color-description">Deep dark shade for text</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
