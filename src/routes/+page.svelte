@@ -1,30 +1,58 @@
 <script lang="ts">
-	import CategorySelector from '../features/CategorySelector/CategorySelector.svelte';
+	import TagSelector from '../features/TagSelector/TagSelector.svelte';
 
-	// Mock categories data
-	const categories = [
+	// Mock tags data
+	const tags = [
 		{
 			id: '1',
 			name: 'Vintage Fashion',
-			description: 'Explore the glamour and elegance of fashion through the decades.',
-			imageUrl:
-				'https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+			description: 'Fashion through the decades'
 		},
 		{
 			id: '2',
-			name: 'Antique Collectibles',
-			description: 'Discover the stories behind cherished items from the past.',
-			imageUrl:
-				'https://images.unsplash.com/photo-1589385973461-eaa9b0ae2830?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+			name: 'Antique Furniture',
+			description: 'Classic designs & woodwork'
 		},
 		{
 			id: '3',
+			name: 'Classic Literature',
+			description: 'Timeless books & authors'
+		},
+		{
+			id: '4',
+			name: 'Photography',
+			description: 'Old cameras & techniques'
+		},
+		{
+			id: '5',
 			name: 'Historical Events',
-			description: 'Journey through pivotal moments that shaped our world.',
-			imageUrl:
-				'https://images.unsplash.com/photo-1461360228754-6e81c478b882?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+			description: 'Moments that shaped history'
+		},
+		{
+			id: '6',
+			name: 'Vinyl Records',
+			description: 'Music on wax & turntables'
+		},
+		{
+			id: '7',
+			name: 'Retro Gaming',
+			description: 'Nostalgia in pixel form'
+		},
+		{
+			id: '8',
+			name: 'Typewriters',
+			description: 'Mechanical writing wonders'
 		}
 	];
+
+	let selectedTags = $state<string[]>([]);
+
+	function handleTagsSelected(
+		event: CustomEvent<{ selectedTags: Array<{ id: string; name: string }> }>
+	) {
+		selectedTags = event.detail.selectedTags.map((tag) => tag.name);
+		console.log('Selected tags:', selectedTags);
+	}
 </script>
 
 <div class="home-page">
@@ -35,50 +63,20 @@
 		</div>
 	</section>
 
-	<CategorySelector {categories} />
+	<TagSelector {tags} on:tagsSelected={handleTagsSelected} />
 
-	<section class="latest-posts">
-		<div class="container">
-			<h2>Latest Articles</h2>
-			<div class="vintage-divider"></div>
-
-			<div class="posts-grid">
-				<!-- Mock posts would go here -->
-				<div class="post-card">
-					<div class="post-image">
-						<img
-							src="https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-							alt="Vintage typewriter"
-						/>
-					</div>
-					<div class="post-content">
-						<span class="post-date">June 15, 2023</span>
-						<h3>The Lost Art of Letter Writing</h3>
-						<p>
-							Rediscovering the elegance and intimacy of handwritten correspondence in a digital
-							age.
-						</p>
-						<a href="/post/1" class="read-more">Read More →</a>
-					</div>
-				</div>
-
-				<div class="post-card">
-					<div class="post-image">
-						<img
-							src="https://images.unsplash.com/photo-1542556398-95fb5b9f787f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-							alt="Vintage camera"
-						/>
-					</div>
-					<div class="post-content">
-						<span class="post-date">May 28, 2023</span>
-						<h3>Film Photography in the Digital Era</h3>
-						<p>Why analog photography continues to captivate artists and enthusiasts alike.</p>
-						<a href="/post/2" class="read-more">Read More →</a>
-					</div>
+	{#if selectedTags.length > 0}
+		<div class="selected-tags-container">
+			<div class="container">
+				<div class="selected-tags">
+					<span class="filter-label">Filtering by:</span>
+					{#each selectedTags as tag}
+						<span class="selected-tag">{tag}</span>
+					{/each}
 				</div>
 			</div>
 		</div>
-	</section>
+	{/if}
 </div>
 
 <style>
@@ -102,81 +100,34 @@
 		margin: 0 auto;
 	}
 
-	.latest-posts {
-		padding: 4rem 0;
+	.selected-tags-container {
+		background-color: var(--background-dark);
+		padding: 1rem 0;
+		border-bottom: 1px solid var(--secondary);
+		margin-bottom: 2rem;
 	}
 
-	.latest-posts h2 {
-		text-align: center;
-		color: var(--primary-dark);
+	.selected-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		align-items: center;
 	}
 
-	.posts-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-		gap: 2rem;
-		margin-top: 2rem;
-	}
-
-	.post-card {
-		background-color: var(--background-light);
-		border: 1px solid var(--secondary);
-		border-radius: 4px;
-		overflow: hidden;
-		transition:
-			transform 0.3s ease,
-			box-shadow 0.3s ease;
-	}
-
-	.post-card:hover {
-		transform: translateY(-5px);
-		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-	}
-
-	.post-image {
-		height: 200px;
-		overflow: hidden;
-	}
-
-	.post-image img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: transform 0.5s ease;
-	}
-
-	.post-card:hover .post-image img {
-		transform: scale(1.05);
-	}
-
-	.post-content {
-		padding: 1.5rem;
-	}
-
-	.post-date {
-		display: block;
-		font-size: 0.85rem;
-		color: var(--text-lighter);
-		margin-bottom: 0.5rem;
-	}
-
-	.post-content h3 {
-		font-size: 1.25rem;
-		margin-bottom: 0.75rem;
-	}
-
-	.post-content p {
-		font-size: 0.95rem;
-		margin-bottom: 1rem;
-	}
-
-	.read-more {
-		color: var(--primary);
+	.filter-label {
+		font-family: 'Courier New', monospace;
 		font-size: 0.9rem;
-		font-weight: 500;
+		color: var(--text-light);
+		margin-right: 0.5rem;
 	}
 
-	.read-more:hover {
-		color: var(--primary-dark);
+	.selected-tag {
+		background-color: var(--primary);
+		color: var(--background-light);
+		padding: 0.3rem 0.8rem;
+		border-radius: 2px;
+		font-size: 0.85rem;
+		font-family: 'Georgia', serif;
+		display: inline-block;
 	}
 </style>

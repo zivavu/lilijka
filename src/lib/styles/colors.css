@@ -4,6 +4,7 @@
 	--primary: hsl(20, 67%, 47%);
 	--primary-light: hsl(20, 65%, 60%);
 	--primary-dark: hsl(20, 70%, 35%);
+	--primary-dark-rgb: 143, 56, 15; /* RGB values for primary-dark for use with rgba() */
 
 	/* Secondary (Pale Gold) and variants */
 	--secondary: hsl(37, 49%, 69%);
