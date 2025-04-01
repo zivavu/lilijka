@@ -1,57 +1,57 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import '$lib/styles/colors.css';
-	import '$lib/styles/global.css';
-	import Navbar from '../features/Navbar/Navbar.svelte';
+import { page } from '$app/stores';
+import '$lib/styles/colors.css';
+import '$lib/styles/global.css';
+import Navbar from '../features/Navbar/Navbar.svelte';
 
-	let { children } = $props();
-	let activeRoute = $derived($page.url.pathname);
+let { children } = $props();
+let activeRoute = $derived($page.url.pathname);
 </script>
 
 <div class="vintage-layout">
-	<header>
-		<Navbar {activeRoute} />
-	</header>
+  <header>
+    <Navbar {activeRoute} />
+  </header>
 
-	<main>
-		{@render children?.()}
-	</main>
+  <main>
+    {@render children?.()}
+  </main>
 
-	<footer>
-		<div class="container">
-			<p>© {new Date().getFullYear()} Lilijka Blog. Wszelkie prawa zastrzeżone.</p>
-		</div>
-	</footer>
+  <footer>
+    <div class="container">
+      <p>© {new Date().getFullYear()} Lilijka Blog. Wszelkie prawa zastrzeżone.</p>
+    </div>
+  </footer>
 </div>
 
 <style>
-	.vintage-layout {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-		background-color: var(--background);
-	}
+.vintage-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background);
+}
 
-	main {
-		flex: 1;
-	}
+main {
+  flex: 1;
+}
 
-	footer {
-		padding: 1.5rem 0;
-		background-color: var(--primary-dark);
-		color: var(--background-light);
-		margin-top: 3rem;
-	}
+footer {
+  padding: 1.5rem 0;
+  background-color: var(--primary-dark);
+  color: var(--background-light);
+  margin-top: 3rem;
+}
 
-	footer .container {
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 0 1rem;
-		text-align: center;
-	}
+footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  text-align: center;
+}
 
-	footer p {
-		font-family: 'Georgia', serif;
-		font-size: 0.9rem;
-	}
+footer p {
+  font-family: 'Georgia', serif;
+  font-size: 0.9rem;
+}
 </style>
