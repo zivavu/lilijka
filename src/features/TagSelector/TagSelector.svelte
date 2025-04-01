@@ -1,4 +1,5 @@
 <script lang="ts">
+import Icon from '@iconify/svelte';
 import { createEventDispatcher } from 'svelte';
 import { type SelectableTag, type Tag } from './types';
 
@@ -42,6 +43,7 @@ function toggleTag(id: string) {
         >
           <div class="tag-content">
             <span class="leaf-icon">❦</span>
+            <Icon icon="mdi-light:home" />
             <h3>{tag.name}</h3>
           </div>
           <div class="leaf-mark" class:visible={tag.selected}>
