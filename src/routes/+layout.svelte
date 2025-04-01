@@ -9,9 +9,7 @@ let activeRoute = $derived($page.url.pathname);
 </script>
 
 <div class="vintage-layout">
-  <header>
-    <Navbar {activeRoute} />
-  </header>
+  <Navbar {activeRoute} />
 
   <main>
     {@render children?.()}
