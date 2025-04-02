@@ -15,7 +15,7 @@ const {
   size?: string | number;
   color?: PaletteColor;
   flip?: IconFlip;
-  rotate?: 0 | 90 | 180 | 270;
+  rotate?: number;
   className?: string;
 } = $props();
 

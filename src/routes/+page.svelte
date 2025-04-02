@@ -1,21 +1,26 @@
 <script lang="ts">
+import { goto } from '$app/navigation';
+import { page } from '$app/state';
+import ArticlesGrid from '../features/ArticlesGrid/ArticlesGrid.svelte';
+import { exampleArticles } from '../features/ArticlesGrid/mockArticleData';
 import { exampleTags } from '../features/TagSelector/mockTagsData';
 import TagSelector from '../features/TagSelector/TagSelector.svelte';
-import { page } from '$app/stores';
-import { goto } from '$app/navigation';
+import type { Article } from '../features/TagSelector/types';
 
 let selectedTags = $state<string[]>([]);
+let filteredArticles = $state<Article[]>([]);
 
 // Initialize selected tags from URL parameters
-$effect(() => {
-  const urlParams = new URLSearchParams($page.url.search);
-  const tagParam = urlParams.get('tags');
-  if (tagParam) {
-    selectedTags = tagParam.split(',');
-  } else {
-    selectedTags = [];
-  }
-});
+const urlParams = new URLSearchParams(page.url.search);
+const tagParam = urlParams.get('tags');
+if (tagParam) {
+  selectedTags = tagParam.split(',');
+} else {
+  selectedTags = [];
+}
+
+// Filter articles based on selected tags
+filterArticles();
 
 function handleTagsSelected(
   event: CustomEvent<{ selectedTags: Array<{ id: string; name: string }> }>
@@ -29,6 +34,24 @@ function handleTagsSelected(
     searchParams.set('tags', newTags.join(','));
   }
   goto(`?${searchParams.toString()}`, { replaceState: true });
+
+  // Filter articles based on selected tags
+  filterArticles();
+}
+
+function filterArticles() {
+  if (selectedTags.length === 0) {
+    filteredArticles = exampleArticles;
+    return;
+  }
+
+  // Find tag ids from selected tag names
+  const tagIds = exampleTags.filter((tag) => selectedTags.includes(tag.name)).map((tag) => tag.id);
+
+  // Filter articles that have at least one of the selected tags
+  filteredArticles = exampleArticles.filter((article) =>
+    article.tags.some((tag) => tagIds.includes(tag))
+  );
 }
 </script>
 
@@ -47,6 +70,8 @@ function handleTagsSelected(
       </div>
     </div>
   {/if}
+
+  <ArticlesGrid articles={filteredArticles} />
 </div>
 
 <style>
