@@ -1,14 +1,34 @@
 <script lang="ts">
 import { exampleTags } from '../features/TagSelector/mockTagsData';
 import TagSelector from '../features/TagSelector/TagSelector.svelte';
+import { page } from '$app/stores';
+import { goto } from '$app/navigation';
 
 let selectedTags = $state<string[]>([]);
+
+// Initialize selected tags from URL parameters
+$effect(() => {
+  const urlParams = new URLSearchParams($page.url.search);
+  const tagParam = urlParams.get('tags');
+  if (tagParam) {
+    selectedTags = tagParam.split(',');
+  } else {
+    selectedTags = [];
+  }
+});
 
 function handleTagsSelected(
   event: CustomEvent<{ selectedTags: Array<{ id: string; name: string }> }>
 ) {
-  selectedTags = event.detail.selectedTags.map((tag) => tag.name);
-  console.log('Selected tags:', selectedTags);
+  const newTags = event.detail.selectedTags.map((tag) => tag.name);
+  selectedTags = newTags;
+
+  // Update URL with selected tags
+  const searchParams = new URLSearchParams();
+  if (newTags.length > 0) {
+    searchParams.set('tags', newTags.join(','));
+  }
+  goto(`?${searchParams.toString()}`, { replaceState: true });
 }
 </script>
 
