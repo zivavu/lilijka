@@ -1,8 +1,8 @@
 <script lang="ts">
+import { page } from '$app/state';
 import { createEventDispatcher } from 'svelte';
 import SelectableTag from './SelectableTag/SelectableTag.svelte';
 import { type Tag } from './types';
-import { page } from '$app/stores';
 
 const dispatch = createEventDispatcher<{
   tagsSelected: { selectedTags: Tag[] };
@@ -12,16 +12,13 @@ const { tags }: { tags: Tag[] } = $props();
 
 let selectedTagIds = $state<string[]>([]);
 
-$effect(() => {
-  const urlParams = new URLSearchParams($page.url.search);
-  const tagParam = urlParams.get('tags');
-  if (tagParam) {
-    const selectedTagNames = tagParam.split(',');
-    selectedTagIds = tags.filter((tag) => selectedTagNames.includes(tag.name)).map((tag) => tag.id);
-  } else {
-    selectedTagIds = [];
-  }
-});
+// Initialize from URL params
+const urlParams = new URLSearchParams(page.url.search);
+const tagParam = urlParams.get('tags');
+if (tagParam) {
+  const selectedTagNames = tagParam.split(',');
+  selectedTagIds = tags.filter((tag) => selectedTagNames.includes(tag.name)).map((tag) => tag.id);
+}
 
 function toggleTag(id: string) {
   if (selectedTagIds.includes(id)) {

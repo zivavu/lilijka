@@ -8,14 +8,14 @@ let { children } = $props();
 let activeRoute = $derived($page.url.pathname);
 </script>
 
-<div class="vintage-layout">
+<div class="layout">
   <Navbar {activeRoute} />
 
   <main>
     {@render children?.()}
   </main>
 
-  <footer>
+  <footer class="vintage-dark">
     <div class="container">
       <p>© {new Date().getFullYear()} Lilijka Blog. Wszelkie prawa zastrzeżone.</p>
     </div>
@@ -23,7 +23,7 @@ let activeRoute = $derived($page.url.pathname);
 </div>
 
 <style>
-.vintage-layout {
+.layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -36,7 +36,6 @@ main {
 
 footer {
   padding: 1.5rem 0;
-  background-color: var(--primary-dark);
   color: var(--background-light);
   margin-top: 3rem;
 }
