@@ -89,7 +89,7 @@ button {
 
 /* Dark texture for navbar and footer */
 .dark-texture {
-  background-color: var(--primary-dark);
+  background-color: var(--primary-light);
   position: relative;
   background-image: radial-gradient(var(--text) 1px, transparent 2px);
   background-size: 5px 5px;

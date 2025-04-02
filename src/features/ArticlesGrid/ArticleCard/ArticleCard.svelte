@@ -57,7 +57,7 @@ const articleTags = exampleTags.filter((tag) => article.tags.includes(tag.id));
   flex-direction: column;
   background-color: var(--background-light);
   border: 1px solid var(--secondary-light);
-  border-radius: 2px;
+  border-radius: 0.25rem;
   overflow: hidden;
   position: relative;
   text-decoration: none;
@@ -155,9 +155,9 @@ h3 {
 .tag {
   font-size: 0.75rem;
   padding: 2px 6px;
-  background-color: var(--tag-color);
+  background-color: var(--secondary-light);
   color: var(--text-dark);
-  border-radius: 2px;
+  border-radius: 0.125rem;
   display: inline-flex;
   align-items: center;
   gap: 4px;

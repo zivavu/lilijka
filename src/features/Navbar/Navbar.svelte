@@ -26,36 +26,6 @@ const { activeRoute = '/' }: { activeRoute?: string } = $props();
   border-bottom: 1px solid var(--secondary-dark);
 }
 
-.vintage-navbar::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--secondary-light) 0px,
-    var(--secondary-light) 2px,
-    transparent 2px,
-    transparent 8px
-  );
-  opacity: 0.3;
-}
-
-.vintage-navbar::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: linear-gradient(45deg, var(--secondary-dark) 1px, transparent 1px);
-  background-size: 4px 4px;
-  opacity: 0.05;
-  pointer-events: none;
-}
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -68,7 +38,8 @@ const { activeRoute = '/' }: { activeRoute?: string } = $props();
 .brand a {
   font-family: 'Georgia', serif;
   font-size: 1.8rem;
-  color: var(--background-light);
+  color: var(--background);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   text-decoration: none;
   letter-spacing: 1px;
   font-weight: normal;
@@ -79,7 +50,6 @@ const { activeRoute = '/' }: { activeRoute?: string } = $props();
 
 .brand-decoration {
   font-size: 1rem;
-  color: var(--secondary-light);
   opacity: 0.8;
 }
 
@@ -89,7 +59,8 @@ const { activeRoute = '/' }: { activeRoute?: string } = $props();
 }
 
 .nav-links a {
-  color: var(--background-light);
+  color: var(--background);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   text-decoration: none;
   font-family: 'Georgia', serif;
   font-size: 1rem;
@@ -100,12 +71,11 @@ const { activeRoute = '/' }: { activeRoute?: string } = $props();
 }
 
 .nav-links a:hover {
-  color: var(--secondary-light);
+  color: var(--background-light);
   opacity: 1;
 }
 
 .nav-links a.active {
-  color: var(--secondary);
   opacity: 1;
 }
 
@@ -118,7 +88,6 @@ const { activeRoute = '/' }: { activeRoute?: string } = $props();
   color: var(--secondary-light);
 }
 
-.nav-links a:hover::before,
 .nav-links a.active::before {
   opacity: 1;
 }

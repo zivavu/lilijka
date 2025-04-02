@@ -48,21 +48,5 @@ export const exampleTags: Tag[] = [
     primaryIcon: 'mdi:record-player',
     secondaryIcon: 'mdi:music-note',
     color: '#A17C6B' // Faded brown
-  },
-  {
-    id: '7',
-    name: 'Retro gry',
-    description: 'Nostalgia w pikselowej formie',
-    primaryIcon: 'tabler:device-gamepad-2',
-    secondaryIcon: 'tabler:ghost',
-    color: '#A1A57C' // Vintage olive
-  },
-  {
-    id: '8',
-    name: 'Maszyny do pisania',
-    description: 'Mechaniczne cuda na papierze',
-    primaryIcon: 'mdi:typewriter',
-    secondaryIcon: 'mdi:ink',
-    color: '#937F97' // Muted lavender
   }
 ] as const;
