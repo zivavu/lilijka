@@ -12,24 +12,53 @@ const {
   onToggle: (id: string) => void;
 } = $props();
 
-let iconVariations: IconVariation[] = [];
+let iconVariations: IconVariation[] = $state([]);
 
-// Generate random variations for decorative icons
 function generateIconVariations(count: number) {
-  return Array.from({ length: count }, () => ({
-    size: 24 + Math.floor(Math.random() * 20),
-    rotation: -25 + Math.floor(Math.random() * 50),
-    opacity: 0.04 + Math.random() * 0.06,
-    offsetX: -15 + Math.floor(Math.random() * 130),
-    offsetY: -15 + Math.floor(Math.random() * 130),
-    delay: Math.random() * 0.5
-  }));
+  const variations: IconVariation[] = [];
+  const positions: Array<{ x: number; y: number }> = [];
+  const minDistance = 40;
+  const maxAttempts = 15;
+
+  for (let i = 0; i < count; i++) {
+    let validPosition = false;
+    let attempts = 0;
+    let newX = 0;
+    let newY = 0;
+
+    while (!validPosition && attempts < maxAttempts) {
+      newX = -15 + Math.floor(Math.random() * 130);
+      newY = -15 + Math.floor(Math.random() * 130);
+      validPosition = true;
+
+      for (const pos of positions) {
+        const distance = Math.sqrt(Math.pow(newX - pos.x, 2) + Math.pow(newY - pos.y, 2));
+        if (distance < minDistance) {
+          validPosition = false;
+          break;
+        }
+      }
+      attempts++;
+    }
+
+    positions.push({ x: newX, y: newY });
+
+    variations.push({
+      size: 12 + Math.floor(Math.random() * 30),
+      rotation: -90 + Math.floor(Math.random() * 180),
+      opacity: 0.08 + Math.random() * 0.1,
+      offsetX: newX,
+      offsetY: newY,
+      delay: Math.random() * 0.7
+    });
+  }
+
+  return variations;
 }
 
-// Generate icon variations when component is selected
 $effect(() => {
   if (isSelected) {
-    iconVariations = generateIconVariations(4);
+    iconVariations = generateIconVariations(12);
   } else {
     iconVariations = [];
   }
@@ -162,7 +191,7 @@ function handleClick() {
   background-image: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0.5) 0%,
-    color-mix(in srgb, var(--tag-color, var(--primary)) 10%, transparent) 100%
+    color-mix(in srgb, var(--tag-color, var(--primary)) 15%, transparent) 100%
   );
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.1),
@@ -197,12 +226,12 @@ function handleClick() {
 }
 
 .tag.selected:hover .decorative-icon-wrapper {
-  opacity: 0.15 !important;
-  transform: scale(1.05);
+  opacity: 0.3 !important;
+  transform: scale(1.2);
 }
 
 :global(.primary-icon) {
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
   transform: scale(1);
   transition: all 0.3s ease;
   margin: 0.25rem 0;

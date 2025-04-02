@@ -5,16 +5,16 @@ export const exampleTags: Tag[] = [
     id: '1',
     name: 'Moda vintage',
     description: 'Styl i ubiór minionych dekad',
-    primaryIcon: 'mdi:hanger',
-    secondaryIcon: 'mdi:feather',
+    primaryIcon: 'tabler:hanger',
+    secondaryIcon: 'tabler:scissors',
     color: '#E8B4B4' // Soft dusty pink
   },
   {
     id: '2',
     name: 'Antyczne meble',
     description: 'Klasyczne wzornictwo i rzemiosło',
-    primaryIcon: 'mdi:chair',
-    secondaryIcon: 'mdi:wood',
+    primaryIcon: 'tabler:armchair',
+    secondaryIcon: 'tabler:wood',
     color: '#B0A786' // Olive sage
   },
   {
@@ -53,8 +53,8 @@ export const exampleTags: Tag[] = [
     id: '7',
     name: 'Retro gry',
     description: 'Nostalgia w pikselowej formie',
-    primaryIcon: 'mdi:gamepad',
-    secondaryIcon: 'mdi:pacman',
+    primaryIcon: 'tabler:device-gamepad-2',
+    secondaryIcon: 'tabler:ghost',
     color: '#A1A57C' // Vintage olive
   },
   {
