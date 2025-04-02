@@ -2,7 +2,7 @@
 const { activeRoute = '/' }: { activeRoute?: string } = $props();
 </script>
 
-<nav class="vintage-navbar vintage-dark">
+<nav class="navbar dark-texture">
   <div class="container">
     <div class="brand">
       <a href="/">
@@ -21,7 +21,7 @@ const { activeRoute = '/' }: { activeRoute?: string } = $props();
 </nav>
 
 <style>
-.vintage-navbar {
+.navbar {
   padding: 1rem 0;
   border-bottom: 1px solid var(--secondary-dark);
 }

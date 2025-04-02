@@ -2,6 +2,7 @@
 import { page } from '$app/stores';
 import '$lib/styles/colors.css';
 import '$lib/styles/global.css';
+import Footer from '../features/Footer/Footer.svelte';
 import Navbar from '../features/Navbar/Navbar.svelte';
 
 let { children } = $props();
@@ -15,11 +16,7 @@ let activeRoute = $derived($page.url.pathname);
     {@render children?.()}
   </main>
 
-  <footer class="vintage-dark">
-    <div class="container">
-      <p>© {new Date().getFullYear()} Lilijka Blog. Wszelkie prawa zastrzeżone.</p>
-    </div>
-  </footer>
+  <Footer />
 </div>
 
 <style>
@@ -35,7 +32,7 @@ main {
 }
 
 footer {
-  padding: 1.5rem 0;
+  padding: 2rem 0;
   color: var(--background-light);
   margin-top: 3rem;
 }
@@ -47,8 +44,23 @@ footer .container {
   text-align: center;
 }
 
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.footer-decoration {
+  font-size: 1.2rem;
+  color: var(--secondary-light);
+  opacity: 0.8;
+}
+
 footer p {
   font-family: 'Georgia', serif;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  opacity: 0.9;
+  letter-spacing: 0.5px;
 }
 </style>

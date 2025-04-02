@@ -81,23 +81,24 @@ button {
   padding: 3rem 0;
 }
 
-/* Vintage paper texture for backgrounds */
-.vintage-paper {
+/* Paper texture for backgrounds */
+.paper-texture {
   background-color: var(--background);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.05' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
 }
 
-/* Vintage dark texture for navbar and footer */
-.vintage-dark {
+/* Dark texture for navbar and footer */
+.dark-texture {
   background-color: var(--primary-dark);
   position: relative;
-  background-image: radial-gradient(var(--text-light) 1px, transparent 2px);
+  background-image: radial-gradient(var(--text) 1px, transparent 2px);
   background-size: 5px 5px;
   background-position: 0 0;
+  background-blend-mode: screen;
 }
 
-/* Vintage divider */
-.vintage-divider {
+/* Decorative divider */
+.decorative-divider {
   height: 1px;
   background: linear-gradient(to right, transparent, var(--secondary), transparent);
   margin: 2rem 0;
