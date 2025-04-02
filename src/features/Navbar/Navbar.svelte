@@ -1,5 +1,4 @@
 <script lang="ts">
-import 'iconify-icon';
 const { activeRoute = '/' }: { activeRoute?: string } = $props();
 </script>
 

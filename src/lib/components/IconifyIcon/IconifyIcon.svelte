@@ -1,25 +1,27 @@
 <script lang="ts">
+import type { PaletteColor } from '$lib/types/colors';
 import 'iconify-icon';
-import type { IconifyIconName } from './types';
+type IconFlip = 'horizontal' | 'vertical' | 'both';
 
 const {
   icon,
   size = '24px',
-  color,
+  color = 'dark-sepia',
   flip,
   rotate,
   className = ''
 }: {
-  icon: IconifyIconName;
+  icon: string;
   size?: string | number;
-  color?: string;
-  flip?: 'horizontal' | 'vertical' | 'both';
+  color?: PaletteColor;
+  flip?: IconFlip;
   rotate?: 0 | 90 | 180 | 270;
   className?: string;
 } = $props();
 
 // Convert size to string with px if it's a number
 const sizeValue = typeof size === 'number' ? `${size}px` : size;
+const colorValue = color ? `color: var(--${color});` : '';
 </script>
 
 <iconify-icon
@@ -28,7 +30,8 @@ const sizeValue = typeof size === 'number' ? `${size}px` : size;
   style="
     width: {sizeValue}; 
     height: {sizeValue};
-    {color ? `color: ${color};` : ''}
+    font-size: {sizeValue};
+    {colorValue}
     {flip === 'horizontal' ? 'transform: scaleX(-1);' : ''}
     {flip === 'vertical' ? 'transform: scaleY(-1);' : ''}
     {flip === 'both' ? 'transform: scale(-1);' : ''}

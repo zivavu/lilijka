@@ -1,66 +1,6 @@
 <script lang="ts">
+import { exampleTags } from '../features/TagSelector/mockTagsData';
 import TagSelector from '../features/TagSelector/TagSelector.svelte';
-import type { Tag } from '../features/TagSelector/types';
-
-// Mock tags data
-const tags: Tag[] = [
-  {
-    id: '1',
-    name: 'Moda vintage',
-    description: 'Styl i ubiór minionych dekad',
-    primaryIcon: 'mdi:fashion',
-    color: '#FF6B6B'
-  },
-  {
-    id: '2',
-    name: 'Antyczne meble',
-    description: 'Klasyczne wzornictwo i rzemiosło',
-    primaryIcon: 'mdi:chair',
-    color: '#FFD700'
-  },
-  {
-    id: '3',
-    name: 'Literatura klasyczna',
-    description: 'Ponadczasowe dzieła i autorzy',
-    primaryIcon: 'mdi:book',
-    color: '#D32F2F'
-  },
-  {
-    id: '4',
-    name: 'Fotografia',
-    description: 'Dawne aparaty i techniki',
-    primaryIcon: 'mdi:camera',
-    color: '#2196F3'
-  },
-  {
-    id: '5',
-    name: 'Wydarzenia historyczne',
-    description: 'Momenty kształtujące dzieje',
-    primaryIcon: 'mdi:history',
-    color: '#FF9800'
-  },
-  {
-    id: '6',
-    name: 'Płyty winylowe',
-    description: 'Muzyka na winylu i gramofony',
-    primaryIcon: 'mdi:vinyl',
-    color: '#FF5722'
-  },
-  {
-    id: '7',
-    name: 'Retro gry',
-    description: 'Nostalgia w pikselowej formie',
-    primaryIcon: 'mdi:gamepad',
-    color: '#FF5722'
-  },
-  {
-    id: '8',
-    name: 'Maszyny do pisania',
-    description: 'Mechaniczne cuda na papierze',
-    primaryIcon: 'mdi:keyboard',
-    color: '#9C27B0'
-  }
-] as const;
 
 let selectedTags = $state<string[]>([]);
 
@@ -73,7 +13,7 @@ function handleTagsSelected(
 </script>
 
 <div class="home-page">
-  <TagSelector {tags} on:tagsSelected={handleTagsSelected} />
+  <TagSelector tags={exampleTags} on:tagsSelected={handleTagsSelected} />
 
   {#if selectedTags.length > 0}
     <div class="selected-tags-container">
