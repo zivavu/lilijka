@@ -1,33 +1,5 @@
 <script lang="ts">
-import IconifyIcon from '$lib/components/IconifyIcon/IconifyIcon.svelte';
-
-const flowerIcons = [
-  'mdi:flower',
-  'mdi:flower-tulip',
-  'mdi:flower-poppy',
-  'mdi:flower-variant',
-  'mdi:flower-variant-outline',
-  'mdi:flower-poppy',
-  'mdi:flower-tulip',
-  'mdi:flower',
-  'mdi:flower-variant',
-  'mdi:flower-tulip',
-  'mdi:flower-poppy',
-  'mdi:flower-variant-outline'
-];
-
-const rotations = [0, 20, 40, -20, -40] as const;
-const sizes = [16, 20, 24, 28];
-
-// Generate random positions for decorative flowers
-const decorativeFlowers = Array.from({ length: 30 }, (_, i) => ({
-  icon: flowerIcons[i % flowerIcons.length],
-  rotation: rotations[Math.floor(Math.random() * rotations.length)],
-  size: sizes[Math.floor(Math.random() * sizes.length)],
-  left: `${Math.random() * 100}%`,
-  top: `${Math.random() * 100}%`,
-  opacity: 0.3 + Math.random() * 0.2
-}));
+import DecorationFlowers from '../shared/DecorationFlowers/DecorationFlowers.svelte';
 </script>
 
 <footer class="dark-texture">
@@ -37,23 +9,7 @@ const decorativeFlowers = Array.from({ length: 30 }, (_, i) => ({
     </div>
   </div>
 
-  {#each decorativeFlowers as flower, i}
-    <div
-      class="decorative-flower"
-      style="
-        left: {flower.left};
-        top: {flower.top};
-        opacity: {flower.opacity};
-      "
-    >
-      <IconifyIcon
-        icon={flower.icon}
-        size={flower.size}
-        color="secondary"
-        rotate={flower.rotation}
-      />
-    </div>
-  {/each}
+  <DecorationFlowers count={30} minOpacity={0.3} maxOpacity={0.5} zIndex={0} />
 </footer>
 
 <style>
@@ -86,17 +42,5 @@ footer p {
   font-size: 1rem;
   opacity: 0.9;
   letter-spacing: 0.5px;
-}
-
-.decorative-flower {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  transition: all 0.3s ease;
-  z-index: 0;
-}
-
-.decorative-flower:hover {
-  opacity: 0.8 !important;
-  transform: translate(-50%, -50%) scale(1.1);
 }
 </style>
