@@ -9,7 +9,7 @@ const { article }: { article: Article } = $props();
 const articleTags = exampleTags.filter((tag) => article.tags.includes(tag.id));
 </script>
 
-<a href={`/articles/${article.slug}`} class="article-card">
+<a href={`/article/${article.slug}`} class="article-card">
   <div class="image-container">
     <div class="image-wrapper">
       <img src={article.coverImage} alt={article.title} />
