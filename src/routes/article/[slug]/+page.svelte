@@ -1,5 +1,6 @@
 <script lang="ts">
 import IconifyIcon from '$lib/components/IconifyIcon/IconifyIcon.svelte';
+import CommentList from '../../../features/Comments/CommentList.svelte';
 import DecorationFlowers from '../../../features/shared/DecorationFlowers/DecorationFlowers.svelte';
 import { exampleTags } from '../../../features/TagSelector/mockTagsData';
 import type { PageProps } from './$types';
@@ -114,6 +115,8 @@ const articleContent = `
             </div>
           </div>
         </div>
+
+        <CommentList articleSlug={article.slug} />
 
         {#if relatedArticles.length > 0}
           <div class="related-articles">
