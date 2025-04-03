@@ -1,6 +1,7 @@
 <script lang="ts">
 import IconifyIcon from '$lib/components/IconifyIcon/IconifyIcon.svelte';
 import { onMount } from 'svelte';
+import SectionTitle from '../../shared/SectionTitle/SectionTitle.svelte';
 
 interface Reaction {
   icon: string;
@@ -116,51 +117,59 @@ function formatCount(count: number): string {
   if (count < 1000) return count.toString();
   return `${(count / 1000).toFixed(1)}k`;
 }
+
+const totalReactions = $derived(reactions.reduce((sum, reaction) => sum + reaction.count, 0));
 </script>
 
-<div class="reactions-container">
-  <h3 class="reactions-title">Co czułaś/eś czytając?</h3>
+<div class="reactions-wrapper">
+  <SectionTitle title="Co czułaś/eś czytając?" />
 
-  <div class="reactions-grid">
-    {#each reactions as reaction}
-      <button
-        class="reaction-button"
-        class:active={userReactions.includes(reaction.name)}
-        on:click={() => toggleReaction(reaction.name)}
-        aria-label={reaction.label}
-        on:mouseenter={() => (showTooltip = reaction.name)}
-        on:mouseleave={() => (showTooltip = '')}
-      >
-        <div class="reaction-icon">
-          <div class={isAnimating === reaction.name ? 'icon-wrapper animating' : 'icon-wrapper'}>
-            <IconifyIcon
-              icon={reaction.icon}
-              size={28}
-              color={userReactions.includes(reaction.name) ? 'primary' : 'secondary'}
-            />
+  <div class="reactions-container">
+    <div class="reactions-grid">
+      {#each reactions as reaction}
+        <button
+          class="reaction-button"
+          class:active={userReactions.includes(reaction.name)}
+          on:click={() => toggleReaction(reaction.name)}
+          aria-label={reaction.label}
+          on:mouseenter={() => (showTooltip = reaction.name)}
+          on:mouseleave={() => (showTooltip = '')}
+        >
+          <div class="reaction-icon">
+            <div class={isAnimating === reaction.name ? 'icon-wrapper animating' : 'icon-wrapper'}>
+              <IconifyIcon
+                icon={reaction.icon}
+                size={28}
+                color={userReactions.includes(reaction.name) ? 'primary' : 'secondary'}
+              />
+            </div>
+            {#if isAnimating === reaction.name}
+              <div class="reaction-particles">
+                <span class="particle particle-1">✿</span>
+                <span class="particle particle-2">✿</span>
+                <span class="particle particle-3">✿</span>
+              </div>
+            {/if}
           </div>
-          {#if isAnimating === reaction.name}
-            <div class="reaction-particles">
-              <span class="particle particle-1">✿</span>
-              <span class="particle particle-2">✿</span>
-              <span class="particle particle-3">✿</span>
+          <span class="reaction-label">{reaction.label}</span>
+          <span class="reaction-count">{formatCount(reaction.count)}</span>
+
+          {#if showTooltip === reaction.name}
+            <div class="reaction-tooltip">
+              {reaction.description}
             </div>
           {/if}
-        </div>
-        <span class="reaction-label">{reaction.label}</span>
-        <span class="reaction-count">{formatCount(reaction.count)}</span>
-
-        {#if showTooltip === reaction.name}
-          <div class="reaction-tooltip">
-            {reaction.description}
-          </div>
-        {/if}
-      </button>
-    {/each}
+        </button>
+      {/each}
+    </div>
   </div>
 </div>
 
 <style>
+.reactions-wrapper {
+  width: 100%;
+}
+
 .reactions-container {
   margin-top: 2rem;
   padding: 1.5rem;
@@ -168,51 +177,6 @@ function formatCount(count: number): string {
   border-radius: 0.25rem;
   text-align: center;
   position: relative;
-  overflow: hidden;
-}
-
-.reactions-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(
-    to right,
-    var(--primary-light),
-    var(--secondary-light),
-    var(--primary-light)
-  );
-  opacity: 0.7;
-}
-
-.reactions-title {
-  font-family: 'Georgia', serif;
-  color: var(--coffee);
-  font-size: 1.1rem;
-  font-weight: normal;
-  margin-bottom: 1.5rem;
-  position: relative;
-  display: inline-block;
-}
-
-.reactions-title::before,
-.reactions-title::after {
-  content: '~';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--secondary);
-  font-size: 1.2rem;
-}
-
-.reactions-title::before {
-  left: -1.5rem;
-}
-
-.reactions-title::after {
-  right: -1.5rem;
 }
 
 .reactions-grid {

@@ -1,6 +1,7 @@
 <script lang="ts">
 import IconifyIcon from '$lib/components/IconifyIcon/IconifyIcon.svelte';
 import { onMount } from 'svelte';
+import SectionTitle from '../../shared/SectionTitle/SectionTitle.svelte';
 
 interface Comment {
   id: string;
@@ -117,17 +118,8 @@ function formatDate(dateString: string) {
 }
 </script>
 
-<section class="comments-section">
-  <h3 class="section-title">
-    <span class="title-line"></span>
-    <span class="title-text">
-      Komentarze
-      {#if comments.length > 0}
-        <span class="comment-count">{comments.length}</span>
-      {/if}
-    </span>
-    <span class="title-line"></span>
-  </h3>
+<section>
+  <SectionTitle title="Komentarze" />
 
   <div class="comment-form">
     <h4>Dodaj komentarz</h4>
@@ -208,78 +200,12 @@ function formatDate(dateString: string) {
 </section>
 
 <style>
+section {
+  width: 100%;
+}
+
 .comments-section {
-  margin-top: 4rem;
-  padding-top: 2rem;
-  border-top: 1px dashed var(--secondary-light);
-}
-
-.section-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 2rem;
-  color: var(--coffee);
-  font-weight: normal;
-  font-size: 1.2rem;
-}
-
-.title-line {
-  height: 1px;
-  background: linear-gradient(
-    to var(--direction, right),
-    transparent,
-    var(--secondary),
-    transparent
-  );
-  flex-grow: 1;
-  margin: 0 1rem;
-  opacity: 0.5;
-}
-
-.title-line:first-child {
-  --direction: left;
-}
-
-.title-text {
-  font-family: 'Georgia', serif;
-  letter-spacing: 1px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.comment-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--primary-light);
-  color: white;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  font-size: 0.75rem;
-  font-family: 'Arial', sans-serif;
-}
-
-.title-text::before,
-.title-text::after {
-  content: '✿';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.7rem;
-  color: var(--primary-light);
-  opacity: 0.8;
-}
-
-.title-text::before {
-  left: -1.5rem;
-}
-
-.title-text::after {
-  right: -1.5rem;
+  /* No styles needed here anymore */
 }
 
 .comment-form {

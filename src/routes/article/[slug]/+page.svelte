@@ -1,8 +1,9 @@
 <script lang="ts">
 import IconifyIcon from '$lib/components/IconifyIcon/IconifyIcon.svelte';
-import CommentList from '../../../features/Comments/CommentList.svelte';
-import ArticleReactions from '../../../features/Reactions/ArticleReactions.svelte';
+import CommentList from '../../../features/Articles/Comments/CommentList.svelte';
+import ArticleReactions from '../../../features/Articles/Reactions/ArticleReactions.svelte';
 import DecorationFlowers from '../../../features/shared/DecorationFlowers/DecorationFlowers.svelte';
+import SectionTitle from '../../../features/shared/SectionTitle/SectionTitle.svelte';
 import { exampleTags } from '../../../features/TagSelector/mockTagsData';
 import type { PageProps } from './$types';
 
@@ -48,22 +49,6 @@ const articleContent = `
     <div class="container">
       <div class="header-content">
         <h1 style="color: var(--background)">{article.title}</h1>
-        <div class="article-meta">
-          <div class="date">
-            <IconifyIcon icon="mdi:calendar" size={16} />
-            <span>
-              {new Date(article.date).toLocaleDateString('pl-PL', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-              })}
-            </span>
-          </div>
-          <div class="reading-time">
-            <IconifyIcon icon="mdi:clock-time-four-outline" size={16} />
-            <span>{article.readingTime}</span>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -90,7 +75,7 @@ const articleContent = `
           {@html articleContent}
         </div>
 
-        <div class="article-footer">
+        <section class="page-section author-section">
           <div class="author-info">
             <div class="author-image">
               <IconifyIcon icon="mdi:flower" size={24} color="primary" />
@@ -98,6 +83,16 @@ const articleContent = `
             <div class="author-name">
               <p class="name">Lila</p>
               <p class="description">Artystyczna dusza lasu</p>
+              <div class="date">
+                <IconifyIcon icon="mdi:calendar" size={14} />
+                <span>
+                  {new Date(article.date).toLocaleDateString('pl-PL', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                  })}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -115,19 +110,19 @@ const articleContent = `
               </a>
             </div>
           </div>
-        </div>
+        </section>
 
-        <ArticleReactions articleSlug={article.slug} />
+        <section class="page-section reactions-section">
+          <ArticleReactions articleSlug={article.slug} />
+        </section>
 
-        <CommentList articleSlug={article.slug} />
+        <section class="page-section comments-section">
+          <CommentList articleSlug={article.slug} />
+        </section>
 
         {#if relatedArticles.length > 0}
-          <div class="related-articles">
-            <h3 class="related-title">
-              <span class="title-line"></span>
-              <span class="title-text">Podobne artykuły</span>
-              <span class="title-line"></span>
-            </h3>
+          <section class="page-section related-section">
+            <SectionTitle title="Podobne artykuły" />
             <div class="related-grid">
               {#each relatedArticles as relatedArticle}
                 <a href={`/article/${relatedArticle.slug}`} class="related-article">
@@ -146,7 +141,7 @@ const articleContent = `
                 </a>
               {/each}
             </div>
-          </div>
+          </section>
         {/if}
 
         <a href="/" class="back-link">
@@ -167,16 +162,6 @@ const articleContent = `
   position: relative;
   background-color: var(--background);
   min-height: 100vh;
-}
-
-.not-found {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 1rem;
-  text-align: center;
-  height: 70vh;
 }
 
 .article-header {
@@ -203,7 +188,7 @@ const articleContent = `
 .header-content {
   position: relative;
   z-index: 2;
-  padding-bottom: 2rem;
+  padding-bottom: 4rem;
   max-width: 800px;
 }
 
@@ -214,20 +199,6 @@ h1 {
   line-height: 1.2;
   font-weight: 500;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.article-meta {
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
-  font-size: 0.9rem;
-}
-
-.date,
-.reading-time {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 .container {
@@ -305,49 +276,56 @@ h1 {
   color: var(--text);
 }
 
-.article-content h2 {
-  font-family: 'Georgia', serif;
-  color: var(--coffee);
-  margin: 2rem 0 1rem;
-  font-size: 1.6rem;
-  font-weight: 500;
+.page-section {
   position: relative;
-  padding-bottom: 0.5rem;
-}
-
-.article-content h2::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 40px;
-  height: 2px;
-  background-color: var(--primary-light);
-}
-
-.article-content p {
-  margin-bottom: 1.5rem;
-}
-
-.article-content blockquote {
-  font-style: italic;
-  padding: 1rem 1.5rem;
-  margin: 2rem 0;
-  border-left: 3px solid var(--primary);
-  background-color: var(--background);
-  color: var(--text-dark);
-  font-size: 1.1rem;
-}
-
-.article-footer {
   margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--secondary-light);
+  padding-top: 3rem;
+}
+
+.page-section::before {
+  display: none;
+}
+
+.author-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  position: relative;
+}
+
+.author-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--secondary-light),
+    var(--secondary),
+    var(--secondary-light),
+    transparent
+  );
+  display: block;
+}
+
+.reactions-section {
+  padding-top: 2rem;
+}
+
+.comments-section {
+  padding-top: 2rem;
+}
+
+.related-section {
+  padding-top: 2rem;
 }
 
 .author-info {
@@ -380,9 +358,18 @@ h1 {
 
 .author-name .description {
   font-size: 0.85rem;
-  margin: 0;
+  margin: 0 0 0.5rem 0;
   color: var(--text-light);
   font-style: italic;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 0.5rem;
 }
 
 .share-links {
@@ -414,64 +401,6 @@ h1 {
 .social-icon:hover {
   background-color: var(--primary);
   color: white;
-}
-
-.related-articles {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px dashed var(--secondary-light);
-}
-
-.related-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  color: var(--coffee);
-  font-weight: normal;
-  font-size: 1.2rem;
-}
-
-.title-line {
-  height: 1px;
-  background: linear-gradient(
-    to var(--direction, right),
-    transparent,
-    var(--secondary),
-    transparent
-  );
-  flex-grow: 1;
-  margin: 0 1rem;
-  opacity: 0.5;
-}
-
-.title-line:first-child {
-  --direction: left;
-}
-
-.title-text {
-  font-family: 'Georgia', serif;
-  letter-spacing: 1px;
-  position: relative;
-}
-
-.title-text::before,
-.title-text::after {
-  content: '✿';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.7rem;
-  color: var(--primary-light);
-  opacity: 0.8;
-}
-
-.title-text::before {
-  left: -1.5rem;
-}
-
-.title-text::after {
-  right: -1.5rem;
 }
 
 .related-grid {
@@ -573,7 +502,7 @@ h1 {
     padding: 1.5rem;
   }
 
-  .article-footer {
+  .author-section {
     flex-direction: column;
     align-items: flex-start;
   }
