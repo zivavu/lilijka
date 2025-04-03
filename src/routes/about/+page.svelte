@@ -133,7 +133,7 @@ import DecorationFlowers from '../../features/shared/DecorationFlowers/Decoratio
 
         <div class="contact-section">
           <div class="section-header">
-            <h2>Porozmawiajmy</h2>
+            <h2>Bądźmy w kontakcie</h2>
             <div class="section-decoration">
               <span></span>
               <IconifyIcon icon="mdi:heart" size={20} color="primary" />
@@ -141,35 +141,24 @@ import DecorationFlowers from '../../features/shared/DecorationFlowers/Decoratio
             </div>
           </div>
 
-          <div class="contact-content">
-            <p class="contact-text">
-              Jeśli chcesz się ze mną skontaktować, podzielić się własnymi przemyśleniami lub
-              zaproponować współpracę, jestem zawsze otwarta na nowe wiadomości. Możesz znaleźć mnie
-              również w mediach społecznościowych, gdzie na bieżąco dzielę się swoim życiem i
-              twórczością.
+          <div class="contact-redirect">
+            <p>
+              Jeśli chcesz się ze mną skontaktować, podzielić się przemyśleniami lub zaproponować
+              współpracę, odwiedź moją stronę kontaktową.
             </p>
 
-            <div class="social-links">
-              <a href="#" class="social-link" aria-label="Facebook">
-                <IconifyIcon icon="mdi:facebook" size={24} />
-                <span>Facebook</span>
-              </a>
-
-              <a href="#" class="social-link" aria-label="Instagram">
-                <IconifyIcon icon="mdi:instagram" size={24} />
-                <span>Instagram</span>
-              </a>
-
-              <a href="#" class="social-link" aria-label="Pinterest">
-                <IconifyIcon icon="mdi:pinterest" size={24} />
-                <span>Pinterest</span>
-              </a>
-
-              <a href="mailto:lila@example.com" class="social-link" aria-label="Email">
-                <IconifyIcon icon="mdi:email" size={24} />
-                <span>Email</span>
-              </a>
-            </div>
+            <a href="/contact" class="contact-button">
+              <div class="contact-button-content">
+                <span>Skontaktuj się ze mną</span>
+                <div class="button-icon">
+                  <IconifyIcon icon="mdi:arrow-right" size={20} />
+                </div>
+              </div>
+              <div class="button-decoration">
+                <span class="flower-left">✿</span>
+                <span class="flower-right">✿</span>
+              </div>
+            </a>
           </div>
         </div>
 
@@ -480,37 +469,104 @@ h1::after {
   margin-bottom: 3rem;
 }
 
-.contact-text {
+.contact-redirect {
   text-align: center;
   max-width: 600px;
-  margin: 0 auto 2rem;
+  margin: 0 auto 1rem;
+}
+
+.contact-redirect p {
+  margin-bottom: 2rem;
   line-height: 1.6;
 }
 
-.social-links {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 2rem;
+.contact-button {
+  display: inline-block;
+  position: relative;
+  padding: 1.2rem 3rem;
+  background: linear-gradient(to right, var(--primary-light), var(--primary));
+  color: white;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.2);
+  overflow: hidden;
 }
 
-.social-link {
+.contact-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.contact-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.3);
+}
+
+.contact-button:hover::before {
+  transform: translateX(100%);
+}
+
+.contact-button-content {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: var(--background);
-  color: var(--text);
-  text-decoration: none;
-  border-radius: 9999px;
-  transition: all 0.2s ease;
+  justify-content: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 1;
 }
 
-.social-link:hover {
-  background-color: var(--primary-light);
-  color: white;
-  transform: translateY(-2px);
+.button-icon {
+  transition: transform 0.3s ease;
+}
+
+.contact-button:hover .button-icon {
+  transform: translateX(5px);
+}
+
+.button-decoration {
+  position: absolute;
+  width: 100%;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.75rem;
+  opacity: 0.6;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.flower-left,
+.flower-right {
+  font-size: 1rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+  transform: translateY(10px);
+}
+
+.contact-button:hover .flower-left {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-button:hover .flower-right {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.1s;
 }
 
 .back-link {
