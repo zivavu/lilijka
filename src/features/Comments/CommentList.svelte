@@ -12,54 +12,54 @@ interface Comment {
 
 const { articleSlug } = $props<{ articleSlug: string }>();
 
+// Mock comments for demonstration
+const mockComments = {
+  'tajemnice-starego-lasu': [
+    {
+      id: '1',
+      articleSlug: 'tajemnice-starego-lasu',
+      author: 'Magda',
+      content:
+        'Ten artykuł przypomniał mi wakacje w górach. Pięknie opisane uczucie obcowania z naturą!',
+      createdAt: '2023-12-15T12:34:56Z'
+    },
+    {
+      id: '2',
+      articleSlug: 'tajemnice-starego-lasu',
+      author: 'Jan',
+      content:
+        'Zawsze zastanawiałem się, dlaczego las ma na nas taki kojący wpływ. Świetny artykuł, który to tłumaczy!',
+      createdAt: '2023-12-10T09:12:34Z'
+    }
+  ],
+  'muzyka-zakleta-w-winylu': [
+    {
+      id: '3',
+      articleSlug: 'muzyka-zakleta-w-winylu',
+      author: 'Tomek',
+      content:
+        'Kolekcjonuję winyle od kilku lat i kompletnie się zgadzam z tymi przemyśleniami. Jest coś magicznego w tej analogowej formie.',
+      createdAt: '2023-12-05T17:45:23Z'
+    }
+  ]
+};
+
 let comments = $state<Comment[]>([]);
 let newComment = $state({ author: '', content: '' });
 let isSubmitting = $state(false);
 let formError = $state('');
-let storageAvailable = $state(true);
 
-// Check if localStorage is available
-function isLocalStorageAvailable() {
-  try {
-    const test = 'test';
-    localStorage.setItem(test, test);
-    localStorage.removeItem(test);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-// Load comments from localStorage on mount
+// Load comments on mount
 onMount(() => {
-  storageAvailable = isLocalStorageAvailable();
-
-  if (storageAvailable) {
-    loadComments();
-
-    // Load saved nickname from cookie if available
-    const savedNickname = getCookie('lila_nickname');
-    if (savedNickname) {
-      newComment.author = savedNickname;
-    }
-  }
+  loadComments();
 });
 
 function loadComments() {
-  if (!storageAvailable) return;
-
-  try {
-    const storedComments = localStorage.getItem('lilaComments');
-    const allComments: Comment[] = storedComments ? JSON.parse(storedComments) : [];
-
-    // Filter comments for current article
-    comments = allComments
-      .filter((comment) => comment.articleSlug === articleSlug)
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  } catch (error) {
-    console.error('Error loading comments:', error);
-    comments = [];
-  }
+  // Load mock comments for this article
+  const articleMockComments = mockComments[articleSlug as keyof typeof mockComments] || [];
+  comments = [...articleMockComments].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
 }
 
 function addComment() {
@@ -77,60 +77,32 @@ function addComment() {
   formError = '';
   isSubmitting = true;
 
-  try {
-    if (!storageAvailable) {
-      throw new Error('Local storage is not available');
+  // Simulate API call delay
+  setTimeout(() => {
+    try {
+      // Create new comment
+      const comment: Comment = {
+        id: Math.random().toString(36).substring(2, 10),
+        articleSlug,
+        author: newComment.author,
+        content: newComment.content,
+        createdAt: new Date().toISOString()
+      };
+
+      // Update local state
+      comments = [comment, ...comments];
+
+      // Reset form content but keep the author name
+      newComment.content = '';
+
+      console.log('Comment added:', comment);
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      formError = 'Wystąpił błąd podczas dodawania komentarza';
+    } finally {
+      isSubmitting = false;
     }
-
-    // Get existing comments
-    const storedComments = localStorage.getItem('lilaComments');
-    const allComments: Comment[] = storedComments ? JSON.parse(storedComments) : [];
-
-    // Create new comment
-    const comment: Comment = {
-      id: crypto.randomUUID(),
-      articleSlug,
-      author: newComment.author,
-      content: newComment.content,
-      createdAt: new Date().toISOString()
-    };
-
-    // Add to storage
-    const updatedComments = [...allComments, comment];
-    localStorage.setItem('lilaComments', JSON.stringify(updatedComments));
-
-    // Save nickname in cookie for future use
-    setCookie('lila_nickname', newComment.author, 30);
-
-    // Update local state
-    comments = [comment, ...comments];
-
-    // Reset form but keep the author name
-    newComment.content = '';
-  } catch (error) {
-    console.error('Error saving comment:', error);
-    formError = 'Wystąpił błąd podczas dodawania komentarza';
-  } finally {
-    isSubmitting = false;
-  }
-}
-
-function setCookie(name: string, value: string, days: number) {
-  const d = new Date();
-  d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
-  const expires = 'expires=' + d.toUTCString();
-  document.cookie = name + '=' + value + ';' + expires + ';path=/';
-}
-
-function getCookie(name: string): string | null {
-  const nameEQ = name + '=';
-  const ca = document.cookie.split(';');
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
+  }, 500); // Simulate network delay
 }
 
 function formatDate(dateString: string) {
@@ -157,87 +129,82 @@ function formatDate(dateString: string) {
     <span class="title-line"></span>
   </h3>
 
-  {#if !storageAvailable}
-    <div class="storage-warning">
-      <IconifyIcon icon="mdi:alert" size={20} />
-      <p>Komentarze wymagają włączonej funkcji localStorage w przeglądarce.</p>
-    </div>
-  {:else}
-    <div class="comment-form">
-      <h4>Dodaj komentarz</h4>
-      <form on:submit|preventDefault={addComment}>
-        <div class="form-group">
-          <div class="form-icon">
-            <IconifyIcon icon="mdi:account" size={20} />
-          </div>
-          <input
-            type="text"
-            placeholder="Pseudonim"
-            bind:value={newComment.author}
-            disabled={isSubmitting}
-          />
+  <div class="comment-form">
+    <h4>Dodaj komentarz</h4>
+    <form on:submit|preventDefault={addComment}>
+      <div class="form-group">
+        <div class="form-icon">
+          <IconifyIcon icon="mdi:account" size={20} />
         </div>
+        <input
+          type="text"
+          placeholder="Pseudonim"
+          bind:value={newComment.author}
+          disabled={isSubmitting}
+        />
+      </div>
 
-        <div class="form-group textarea-group">
-          <div class="form-icon">
-            <IconifyIcon icon="mdi:comment-text-outline" size={20} />
-          </div>
-          <textarea
-            placeholder="Treść komentarza..."
-            bind:value={newComment.content}
-            disabled={isSubmitting}
-            rows={4}
-          ></textarea>
+      <div class="form-group textarea-group">
+        <div class="form-icon">
+          <IconifyIcon icon="mdi:comment-text-outline" size={20} />
         </div>
+        <textarea
+          placeholder="Treść komentarza..."
+          bind:value={newComment.content}
+          disabled={isSubmitting}
+          rows={4}
+        ></textarea>
+      </div>
 
-        {#if formError}
-          <div class="form-error">
-            <IconifyIcon icon="mdi:alert-circle" size={16} />
-            <span>{formError}</span>
-          </div>
-        {/if}
-
-        <div class="form-footer">
-          <p class="form-note">Komentarze są przechowywane lokalnie w Twojej przeglądarce.</p>
-          <button type="submit" class="submit-button" disabled={isSubmitting}>
-            {#if isSubmitting}
-              <IconifyIcon icon="mdi:loading" size={16} class="spinner" />
-              Dodawanie...
-            {:else}
-              Dodaj komentarz
-            {/if}
-          </button>
+      {#if formError}
+        <div class="form-error">
+          <IconifyIcon icon="mdi:alert-circle" size={16} />
+          <span>{formError}</span>
         </div>
-      </form>
-    </div>
-
-    <div class="comments-list">
-      {#if comments.length === 0}
-        <div class="no-comments">
-          <IconifyIcon icon="mdi:comment-text-outline" size={24} />
-          <p>Bądź pierwszą osobą, która skomentuje ten artykuł!</p>
-        </div>
-      {:else}
-        {#each comments as comment}
-          <div class="comment">
-            <div class="comment-header">
-              <div class="comment-author">
-                <IconifyIcon icon="mdi:account" size={18} />
-                <span>{comment.author}</span>
-              </div>
-              <div class="comment-date">
-                <IconifyIcon icon="mdi:clock-outline" size={14} />
-                <span>{formatDate(comment.createdAt)}</span>
-              </div>
-            </div>
-            <div class="comment-content">
-              {comment.content}
-            </div>
-          </div>
-        {/each}
       {/if}
-    </div>
-  {/if}
+
+      <div class="form-footer">
+        <p class="form-note">Komentarze będą widoczne dla wszystkich czytelników.</p>
+        <button type="submit" class="submit-button" disabled={isSubmitting}>
+          {#if isSubmitting}
+            <div class="spinner-wrapper">
+              <IconifyIcon icon="mdi:loading" size={16} />
+            </div>
+            Dodawanie...
+          {:else}
+            Dodaj komentarz
+          {/if}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="comments-list">
+    {#if comments.length === 0}
+      <div class="no-comments">
+        <IconifyIcon icon="mdi:comment-text-outline" size={24} />
+        <p>Bądź pierwszą osobą, która skomentuje ten artykuł!</p>
+      </div>
+    {:else}
+      {#each comments as comment}
+        <div class="comment">
+          <div class="comment-header">
+            <div class="comment-author">
+              <IconifyIcon icon="mdi:account" size={18} />
+              <span>{comment.author}</span>
+            </div>
+            <div class="comment-date">
+              <IconifyIcon icon="mdi:clock-outline" size={14} />
+              <span>{formatDate(comment.createdAt)}</span>
+            </div>
+          </div>
+          <div class="comment-content">
+            {comment.content}
+          </div>
+        </div>
+      {/each}
+    {/if}
+  </div>
 </section>
 
 <style>
@@ -313,18 +280,6 @@ function formatDate(dateString: string) {
 
 .title-text::after {
   right: -1.5rem;
-}
-
-.storage-warning {
-  background-color: var(--background);
-  padding: 1.5rem;
-  border-radius: 0.25rem;
-  margin-bottom: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: var(--error, #d32f2f);
-  border-left: 3px solid var(--error, #d32f2f);
 }
 
 .comment-form {
@@ -440,8 +395,10 @@ textarea:focus {
   cursor: not-allowed;
 }
 
-.spinner {
+.spinner-wrapper {
   animation: spin 1s linear infinite;
+  display: inline-flex;
+  margin-right: 0.3rem;
 }
 
 @keyframes spin {

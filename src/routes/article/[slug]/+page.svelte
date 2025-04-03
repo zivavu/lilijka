@@ -1,6 +1,7 @@
 <script lang="ts">
 import IconifyIcon from '$lib/components/IconifyIcon/IconifyIcon.svelte';
 import CommentList from '../../../features/Comments/CommentList.svelte';
+import ArticleReactions from '../../../features/Reactions/ArticleReactions.svelte';
 import DecorationFlowers from '../../../features/shared/DecorationFlowers/DecorationFlowers.svelte';
 import { exampleTags } from '../../../features/TagSelector/mockTagsData';
 import type { PageProps } from './$types';
@@ -115,6 +116,8 @@ const articleContent = `
             </div>
           </div>
         </div>
+
+        <ArticleReactions articleSlug={article.slug} />
 
         <CommentList articleSlug={article.slug} />
 
