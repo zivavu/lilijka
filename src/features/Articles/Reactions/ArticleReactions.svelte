@@ -9,46 +9,58 @@ interface Reaction {
   label: string;
   description: string;
   count: number;
+  particleType: string;
+  particleColor: string;
 }
 
 const { articleSlug } = $props<{ articleSlug: string }>();
 
-// Nature-inspired reactions with diverse emotional expressions
+// Nature-inspired reactions with diverse emotional expressions and custom particles
 const reactionTypes: Reaction[] = [
   {
     icon: 'mdi:heart',
     name: 'heart',
     label: 'Uwielbiam',
     description: 'Treść, która porusza serce',
-    count: 0
+    count: 0,
+    particleType: '❀ ♥ ❤',
+    particleColor: 'var(--primary)'
   },
   {
     icon: 'mdi:sprout',
     name: 'growth',
     label: 'Rozwojowe',
     description: 'Daje do myślenia i rozwija',
-    count: 0
+    count: 0,
+    particleType: '☘ 🌱 ✤',
+    particleColor: 'var(--primary-light)'
   },
   {
     icon: 'mdi:water',
     name: 'melancholy',
     label: 'Nostalgiczne',
     description: 'Budzi tęsknotę i wspomnienia',
-    count: 0
+    count: 0,
+    particleType: '☁ 💧 ~',
+    particleColor: 'var(--secondary)'
   },
   {
     icon: 'mdi:thought-bubble',
     name: 'thoughtful',
     label: 'Refleksyjne',
     description: 'Skłania do głębszych przemyśleń',
-    count: 0
+    count: 0,
+    particleType: '✧ ⋆ ✦',
+    particleColor: 'var(--coffee)'
   },
   {
     icon: 'mdi:sparkles',
     name: 'enchanted',
     label: 'Zaczarowane',
     description: 'Magiczna, baśniowa atmosfera',
-    count: 0
+    count: 0,
+    particleType: '✿ ✹ ✨',
+    particleColor: 'var(--secondary-light)'
   }
 ];
 
@@ -74,6 +86,10 @@ let reactions = $state<Reaction[]>([...reactionTypes]);
 let userReactions = $state<string[]>([]);
 let isAnimating = $state('');
 let showTooltip = $state('');
+let isAdding = $state(false);
+
+// Track particles per reaction button
+let particlesByReaction = $state<Record<string, any[]>>({});
 
 onMount(() => {
   // Initialize with mock data if available for this article
@@ -87,28 +103,89 @@ onMount(() => {
   }
 });
 
+function generateParticles(reactionName: string, count = 10) {
+  const reaction = reactions.find((r) => r.name === reactionName);
+  if (!reaction) return [];
+
+  const particleChars = reaction.particleType.split(' ');
+  const particles = [];
+
+  for (let i = 0; i < count; i++) {
+    const char = particleChars[Math.floor(Math.random() * particleChars.length)];
+
+    // Generate random directional values
+    const directionX = Math.random() * 2 - 1; // -1 to 1 (left or right)
+    const directionMultiplier = Math.random() * 0.8 + 0.2; // 0.2 to 1.0 for varied intensity
+
+    particles.push({
+      char,
+      top: 40 + (Math.random() * 20 - 10),
+      left: 50 + (Math.random() * 80 - 40),
+      delay: Math.random() * 0.7,
+      size: 0.7 + Math.random() * 0.6,
+      duration: 1.5 + Math.random() * 1.5,
+      distance: 40 + Math.random() * 40,
+      rotation: Math.random() * 40 - 20,
+      directionX: directionX, // Added direction parameter
+      directionMultiplier: directionMultiplier, // Added multiplier parameter
+      id: `p-${reactionName}-${i}-${Date.now()}`
+    });
+  }
+
+  // Add a few extra particles with more extreme directions
+  for (let i = 0; i < Math.floor(count / 3); i++) {
+    const char = particleChars[Math.floor(Math.random() * particleChars.length)];
+    const extremeDirection = Math.random() > 0.5 ? 1.5 : -1.5; // More extreme left/right
+
+    particles.push({
+      char,
+      top: 50 + (Math.random() * 30 - 15),
+      left: 50 + (Math.random() * 30 - 15), // More central starting position
+      delay: Math.random() * 0.3,
+      size: 0.6 + Math.random() * 0.4,
+      duration: 2 + Math.random() * 1,
+      distance: 50 + Math.random() * 30,
+      rotation: Math.random() * 60 - 30,
+      directionX: extremeDirection, // Strong left or right
+      directionMultiplier: Math.random() * 0.5 + 0.5, // 0.5 to 1.0
+      id: `p-${reactionName}-extra-${i}-${Date.now()}`
+    });
+  }
+
+  return particles;
+}
+
 function toggleReaction(name: string) {
+  const index = reactions.findIndex((r) => r.name === name);
+  if (index === -1) return;
+
+  const hasReacted = userReactions.includes(name);
+  isAdding = !hasReacted;
+
   isAnimating = name;
   setTimeout(() => {
     isAnimating = '';
   }, 700);
 
-  const index = reactions.findIndex((r) => r.name === name);
-  if (index === -1) return;
+  if (isAdding) {
+    // Reduce particle count by ~1/3 (from 20 to 14)
+    const newParticles = generateParticles(name, 14);
+    particlesByReaction[name] = [...(particlesByReaction[name] || []), ...newParticles];
 
-  const hasReacted = userReactions.includes(name);
+    // Longer timeout for smoother decay
+    setTimeout(() => {
+      particlesByReaction[name] = [];
+    }, 4000);
+  }
 
   if (hasReacted) {
-    // Remove reaction
     userReactions = userReactions.filter((r) => r !== name);
     reactions[index].count = Math.max(0, reactions[index].count - 1);
   } else {
-    // Add reaction
     userReactions = [...userReactions, name];
     reactions[index].count = reactions[index].count + 1;
   }
 
-  // Later this will be saved to database
   console.log('Reaction toggled:', name, 'for article:', articleSlug);
 }
 
@@ -127,39 +204,61 @@ const totalReactions = $derived(reactions.reduce((sum, reaction) => sum + reacti
   <div class="reactions-container">
     <div class="reactions-grid">
       {#each reactions as reaction}
-        <button
-          class="reaction-button"
-          class:active={userReactions.includes(reaction.name)}
-          on:click={() => toggleReaction(reaction.name)}
-          aria-label={reaction.label}
-          on:mouseenter={() => (showTooltip = reaction.name)}
-          on:mouseleave={() => (showTooltip = '')}
-        >
-          <div class="reaction-icon">
-            <div class={isAnimating === reaction.name ? 'icon-wrapper animating' : 'icon-wrapper'}>
-              <IconifyIcon
-                icon={reaction.icon}
-                size={28}
-                color={userReactions.includes(reaction.name) ? 'primary' : 'secondary'}
-              />
+        <div class="reaction-button-container">
+          <button
+            class="reaction-button"
+            class:active={userReactions.includes(reaction.name)}
+            on:click={() => toggleReaction(reaction.name)}
+            aria-label={reaction.label}
+            on:mouseenter={() => (showTooltip = reaction.name)}
+            on:mouseleave={() => (showTooltip = '')}
+          >
+            <div class="reaction-icon">
+              <div
+                class={isAnimating === reaction.name ? 'icon-wrapper animating' : 'icon-wrapper'}
+              >
+                <IconifyIcon
+                  icon={reaction.icon}
+                  size={28}
+                  color={userReactions.includes(reaction.name) ? 'primary' : 'secondary'}
+                />
+              </div>
             </div>
-            {#if isAnimating === reaction.name}
-              <div class="reaction-particles">
-                <span class="particle particle-1">✿</span>
-                <span class="particle particle-2">✿</span>
-                <span class="particle particle-3">✿</span>
+            <span class="reaction-label">{reaction.label}</span>
+            <span class="reaction-count">{formatCount(reaction.count)}</span>
+
+            {#if showTooltip === reaction.name}
+              <div class="reaction-tooltip">
+                {reaction.description}
               </div>
             {/if}
-          </div>
-          <span class="reaction-label">{reaction.label}</span>
-          <span class="reaction-count">{formatCount(reaction.count)}</span>
+          </button>
 
-          {#if showTooltip === reaction.name}
-            <div class="reaction-tooltip">
-              {reaction.description}
+          <!-- Particles for this specific button -->
+          {#if particlesByReaction[reaction.name]?.length > 0}
+            <div class="particle-container">
+              {#each particlesByReaction[reaction.name] || [] as particle (particle.id)}
+                <span
+                  class="particle"
+                  style="
+                    top: {particle.top}%; 
+                    left: {particle.left}%; 
+                    animation-delay: {particle.delay}s;
+                    animation-duration: {particle.duration}s;
+                    font-size: {particle.size}rem;
+                    color: {reaction.particleColor};
+                    --travel-distance: {particle.distance}px;
+                    --direction-x: {particle.directionX};
+                    --direction-multiplier: {particle.directionMultiplier};
+                    --rotation: {particle.rotation}deg;
+                  "
+                >
+                  {particle.char}
+                </span>
+              {/each}
             </div>
           {/if}
-        </button>
+        </div>
       {/each}
     </div>
   </div>
@@ -177,6 +276,7 @@ const totalReactions = $derived(reactions.reduce((sum, reaction) => sum + reacti
   border-radius: 0.25rem;
   text-align: center;
   position: relative;
+  overflow: visible;
 }
 
 .reactions-grid {
@@ -184,6 +284,12 @@ const totalReactions = $derived(reactions.reduce((sum, reaction) => sum + reacti
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.reaction-button-container {
+  position: relative;
 }
 
 .reaction-button {
@@ -199,6 +305,8 @@ const totalReactions = $derived(reactions.reduce((sum, reaction) => sum + reacti
   transition: all 0.2s ease;
   min-width: 90px;
   color: var(--text);
+  position: relative;
+  z-index: 1;
 }
 
 .reaction-button:hover {
@@ -243,39 +351,23 @@ const totalReactions = $derived(reactions.reduce((sum, reaction) => sum + reacti
   animation: pulse 0.7s ease-out;
 }
 
-.reaction-particles {
+.particle-container {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
+  overflow: visible;
+  z-index: 10;
 }
 
 .particle {
   position: absolute;
-  color: var(--primary-light);
-  font-size: 0.7rem;
   opacity: 0;
-  animation: particle-fly 0.7s ease-out forwards;
-}
-
-.particle-1 {
-  top: 40%;
-  left: 20%;
-  animation-delay: 0.1s;
-}
-
-.particle-2 {
-  top: 20%;
-  left: 50%;
-  animation-delay: 0.2s;
-}
-
-.particle-3 {
-  top: 40%;
-  left: 80%;
-  animation-delay: 0.3s;
+  animation: particle-float var(--duration, 2s) ease-out forwards;
+  transform-origin: center center;
+  z-index: 10;
 }
 
 @keyframes pulse {
@@ -290,16 +382,33 @@ const totalReactions = $derived(reactions.reduce((sum, reaction) => sum + reacti
   }
 }
 
-@keyframes particle-fly {
+@keyframes particle-float {
   0% {
-    transform: translate(0, 0) rotate(0deg);
+    transform: translate(0, 0) rotate(0deg) scale(0.8);
     opacity: 0;
+    scale: 0.8;
   }
-  50% {
+  15% {
     opacity: 1;
+    scale: 1.2;
+  }
+  70% {
+    opacity: 0.8;
+    scale: 1;
+  }
+  85% {
+    opacity: 0.4;
+    scale: 0.3;
   }
   100% {
-    transform: translate(0, -20px) rotate(15deg);
+    transform: translate(
+        calc(
+          var(--travel-distance, 30px) * var(--direction-x, 0) * var(--direction-multiplier, 0.3)
+        ),
+        calc(var(--travel-distance, 30px) * -1)
+      )
+      rotate(var(--rotation, 15deg));
+    scale: 0.1;
     opacity: 0;
   }
 }
