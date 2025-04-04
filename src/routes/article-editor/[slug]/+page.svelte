@@ -1,25 +1,19 @@
 <script lang="ts">
 import IconifyIcon from '$lib/components/IconifyIcon/IconifyIcon.svelte';
-import ArticleMarginalis from '../../features/Article/Marginalis/ArticleMarginalis.svelte';
-import DecorationFlowers from '../../features/shared/DecorationFlowers/DecorationFlowers.svelte';
-import { defaultArticleContent } from '../../lib/mockData/mockArticleData';
-import { exampleTags } from '../../lib/mockData/mockTagsData';
-import type { PageProps } from './$types';
+import ArticleMarginalis from '../../../features/Article/Marginalis/ArticleMarginalis.svelte';
+import DecorationFlowers from '../../../features/shared/DecorationFlowers/DecorationFlowers.svelte';
+import { defaultArticleContent } from '../../../lib/mockData/mockArticleData';
+import { exampleTags } from '../../../lib/mockData/mockTagsData';
+import type { PageProps } from '../$types';
 
 const { data }: PageProps = $props();
 const { article } = data;
 
-// Initial state using Svelte 5 runes
 let currentArticle = $state(article);
 let isEditing = $state(true);
 let articleTags = $derived(exampleTags.filter((tag) => currentArticle.tags.includes(tag.id)));
 
-// Use the content from the article or default if not available
 let articleContent = $state(currentArticle.content || defaultArticleContent);
-
-// Marginalia items will be stored here
-let leftMarginItems = $state<any[]>([]);
-let rightMarginItems = $state<any[]>([]);
 
 function handleTitleChange(event: Event) {
   const target = event.target as HTMLInputElement;
@@ -34,12 +28,6 @@ function handleExcerptChange(event: Event) {
 function handleContentChange(event: Event) {
   const target = event.target as HTMLTextAreaElement;
   articleContent = target.value;
-}
-
-// Function to add item to marginalia (will be implemented later)
-function addMarginItem(side: 'left' | 'right') {
-  // This will be implemented later
-  console.log(`Adding item to ${side} margin`);
 }
 </script>
 
@@ -63,14 +51,7 @@ function addMarginItem(side: 'left' | 'right') {
   </div>
 
   <div class="article-container">
-    <ArticleMarginalis id="left-marginalis">
-      <div class="margin-controls">
-        <button class="add-margin-item" on:click={() => addMarginItem('left')}>
-          <IconifyIcon icon="mdi:plus" size={16} />
-          Dodaj element
-        </button>
-      </div>
-    </ArticleMarginalis>
+    <ArticleMarginalis></ArticleMarginalis>
 
     <div class="content-container">
       <div class="article-tags">
@@ -124,14 +105,7 @@ function addMarginItem(side: 'left' | 'right') {
       </div>
     </div>
 
-    <ArticleMarginalis id="right-marginalis">
-      <div class="margin-controls">
-        <button class="add-margin-item" on:click={() => addMarginItem('right')}>
-          <IconifyIcon icon="mdi:plus" size={16} />
-          Dodaj element
-        </button>
-      </div>
-    </ArticleMarginalis>
+    <ArticleMarginalis></ArticleMarginalis>
   </div>
 
   <div class="article-decoration">

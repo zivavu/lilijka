@@ -38,7 +38,7 @@ const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
   </div>
 
   <div class="article-container">
-    <ArticleMarginalis />
+    <ArticleMarginalis articleSlug={article.slug} />
     <div class="content-container">
       <div class="article-tags">
         {#each articleTags as tag}
@@ -80,7 +80,7 @@ const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
         Wróć do wszystkich artykułów
       </a>
     </div>
-    <ArticleMarginalis />
+    <ArticleMarginalis articleSlug={article.slug} />
   </div>
 
   <div class="article-decoration">

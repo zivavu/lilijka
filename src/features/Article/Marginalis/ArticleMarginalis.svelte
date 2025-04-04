@@ -1,11 +1,32 @@
 <script lang="ts">
-let { children } = $props();
+import ArticleMarginalisEdit from './ArticleMarginalisEdit.svelte';
+import ArticleMarginalisView from './ArticleMarginalisView.svelte';
+import type { ArticleMarginalis } from './types';
+
+let { articleSlug = '', isEditing = false } = $props<{
+  articleSlug: string;
+  isEditing?: boolean;
+}>();
+
+// Initialize empty marginalis data structure
+let marginalisData = $state<ArticleMarginalis>({
+  articleSlug,
+  elements: {
+    images: [],
+    text: [],
+    icons: [],
+    links: [],
+    quotes: []
+  }
+});
 </script>
 
 <div class="marginalis">
-  <div class="marginalis-content">
-    {@render children?.()}
-  </div>
+  {#if isEditing}
+    <ArticleMarginalisEdit articleMarginalis={marginalisData} />
+  {:else}
+    <ArticleMarginalisView articleMarginalis={marginalisData} />
+  {/if}
 </div>
 
 <style>

@@ -1,5 +1,5 @@
 import { createNewArticle, getArticleBySlug } from '$lib/utils/article';
-import type { PageLoad } from './$types';
+import type { PageLoad } from '../$types';
 
 export const load: PageLoad = ({ url }) => {
   // Check if we're editing an existing article or creating a new one
