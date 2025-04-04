@@ -88,13 +88,13 @@ import PageWrapper from '../../features/shared/PageWrapper/PageWrapper.svelte';
 
       <button type="submit" class="submit-button">
         <span>Wyślij wiadomość</span>
-        <IconifyIcon icon="mdi:send" size={18} />
+        <IconifyIcon icon="mdi:send" color="cream" size={18} />
       </button>
     </form>
   </div>
 
   <a href="/" class="back-link">
-    <IconifyIcon icon="mdi:arrow-left" size={16} />
+    <IconifyIcon icon="mdi:arrow-left" color="cream" size={16} />
     Wróć do strony głównej
   </a>
 </PageWrapper>

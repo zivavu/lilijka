@@ -46,15 +46,16 @@ const articleContent = `
 <div class="article-page">
   <div class="article-header" style="background-image: url({article.coverImage})">
     <div class="overlay"></div>
-    <div class="container">
-      <div class="header-content">
-        <h1 style="color: var(--background)">{article.title}</h1>
-      </div>
-    </div>
+    <h1 style="color: var(--background); z-index: 3; margin-bottom: 6rem;">{article.title}</h1>
   </div>
 
   <div class="article-container">
-    <div class="container">
+    <div class="marginalis" id="left-marginalis">
+      <div class="marginalis-content">
+        <!-- Left marginalis content will go here when editor is implemented -->
+      </div>
+    </div>
+    <div class="content-container">
       <div class="content-wrapper">
         <div class="article-tags">
           {#each articleTags as tag}
@@ -150,6 +151,11 @@ const articleContent = `
         </a>
       </div>
     </div>
+    <div class="marginalis" id="right-marginalis">
+      <div class="marginalis-content">
+        <!-- Right marginalis content will go here when editor is implemented -->
+      </div>
+    </div>
   </div>
 
   <div class="article-decoration">
@@ -172,6 +178,7 @@ const articleContent = `
   background-repeat: no-repeat;
   display: flex;
   align-items: flex-end;
+  justify-content: center;
   color: white;
 }
 
@@ -185,13 +192,6 @@ const articleContent = `
   z-index: 1;
 }
 
-.header-content {
-  position: relative;
-  z-index: 2;
-  padding-bottom: 4rem;
-  max-width: 800px;
-}
-
 h1 {
   font-family: 'Georgia', serif;
   font-size: 2.5rem;
@@ -201,24 +201,75 @@ h1 {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
 .article-container {
   margin-top: -3rem;
   position: relative;
   z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) minmax(320px, 800px) minmax(100px, 1fr);
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+}
+
+.content-container {
+  width: 100%;
+  max-width: 800px;
+  padding: 0 1rem;
+  z-index: 2;
+}
+
+.marginalis {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background-color: var(--background-light);
+  border-right: 1px dashed var(--secondary-light);
+  border-left: 1px dashed var(--secondary-light);
+  overflow: hidden;
+  opacity: 0.95;
+  transition: opacity 0.3s ease;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.01) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.01) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.marginalis:hover {
+  opacity: 1;
+}
+
+.marginalis::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.marginalis-content {
+  padding: 1rem;
+  height: 100%;
+  width: 100%;
+}
+
+#left-marginalis {
+  border-left: none;
+}
+
+#right-marginalis {
+  border-right: none;
 }
 
 .content-wrapper {
   background-color: var(--background-light);
   border-radius: 0.25rem;
   padding: 2.5rem;
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
@@ -514,6 +565,14 @@ h1 {
   .related-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+
+  .article-container {
+    grid-template-columns: 0fr minmax(320px, 1fr) 0fr;
+  }
+
+  .marginalis {
+    display: none;
   }
 }
 

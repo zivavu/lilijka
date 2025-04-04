@@ -21,7 +21,6 @@ const {
 
 // Convert size to string with px if it's a number
 const sizeValue = typeof size === 'number' ? `${size}px` : size;
-const colorValue = color ? `color: var(--${color});` : '';
 </script>
 
 <iconify-icon
@@ -31,7 +30,7 @@ const colorValue = color ? `color: var(--${color});` : '';
     width: {sizeValue}; 
     height: {sizeValue};
     font-size: {sizeValue};
-    {colorValue}
+    color: var(--{color});
     {flip === 'horizontal' ? 'transform: scaleX(-1);' : ''}
     {flip === 'vertical' ? 'transform: scaleY(-1);' : ''}
     {flip === 'both' ? 'transform: scale(-1);' : ''}

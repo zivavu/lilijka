@@ -136,7 +136,7 @@ import PageWrapper from '../../features/shared/PageWrapper/PageWrapper.svelte';
         <div class="contact-button-content">
           <span>Skontaktuj się ze mną</span>
           <div class="button-icon">
-            <IconifyIcon icon="mdi:arrow-right" size={20} />
+            <IconifyIcon icon="mdi:arrow-right" color="cream" size={20} />
           </div>
         </div>
         <div class="button-decoration">

@@ -70,13 +70,6 @@ button {
   cursor: pointer;
 }
 
-/* Utility classes */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
 .section {
   padding: 3rem 0;
 }
@@ -89,7 +82,7 @@ button {
 
 /* Dark texture for navbar and footer */
 .dark-texture {
-  background-color: var(--primary-light);
+  background-color: var(--primary-dark);
   position: relative;
   background-image: radial-gradient(var(--text) 1px, transparent 2px);
   background-size: 5px 5px;
