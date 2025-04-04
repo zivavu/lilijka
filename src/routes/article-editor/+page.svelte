@@ -1,11 +1,14 @@
 <script lang="ts">
 import IconifyIcon from '$lib/components/IconifyIcon/IconifyIcon.svelte';
-import { exampleArticles } from '../../features/ArticlesGrid/mockArticleData';
 import DecorationFlowers from '../../features/shared/DecorationFlowers/DecorationFlowers.svelte';
 import { exampleTags } from '../../features/TagSelector/mockTagsData';
+import type { PageProps } from './$types';
+
+const { data }: PageProps = $props();
+const { article } = data;
 
 // Initial state using Svelte 5 runes
-let currentArticle = $state(exampleArticles[0]);
+let currentArticle = $state(article);
 let isEditing = $state(true);
 let articleTags = $derived(exampleTags.filter((tag) => currentArticle.tags.includes(tag.id)));
 
@@ -119,10 +122,10 @@ function addMarginItem(side: 'left' | 'right') {
           <IconifyIcon icon="mdi:content-save" size={18} />
           Zapisz zmiany
         </button>
-        <button class="preview-btn">
+        <a href={`/article/${currentArticle.slug}`} class="preview-btn" target="_blank">
           <IconifyIcon icon="mdi:eye" size={18} />
           Podgląd
-        </button>
+        </a>
         <a href="/" class="cancel-btn">
           <IconifyIcon icon="mdi:close" size={18} />
           Anuluj

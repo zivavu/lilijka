@@ -10,7 +10,6 @@ import type { PageProps } from './$types';
 const { data }: PageProps = $props();
 
 const { article, relatedArticles } = data;
-console.log(data, 'client');
 // Get the associated tags for the article
 const articleTags = exampleTags.filter((tag) => data.article.tags.includes(tag.id));
 
@@ -47,6 +46,10 @@ const articleContent = `
   <div class="article-header" style="background-image: url({article.coverImage})">
     <div class="overlay"></div>
     <h1 style="color: var(--background); z-index: 3; margin-bottom: 6rem;">{article.title}</h1>
+    <a href={`/article-editor?slug=${article.slug}`} class="edit-article-button">
+      <IconifyIcon icon="mdi:pencil" size={16} />
+      <span>Edytuj</span>
+    </a>
   </div>
 
   <div class="article-container">
@@ -116,7 +119,7 @@ const articleContent = `
         <CommentList articleSlug={article.slug} />
       </section>
 
-      {#if relatedArticles.length > 0}
+      {#if relatedArticles && relatedArticles.length > 0}
         <section class="page-section related-section">
           <SectionTitle title="Podobne artykuły" />
           <div class="related-grid">
@@ -482,6 +485,30 @@ h1 {
 
 .back-link:hover {
   color: var(--primary);
+}
+
+.edit-article-button {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--text-dark);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.edit-article-button:hover {
+  background-color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .article-decoration {
