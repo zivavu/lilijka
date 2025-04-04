@@ -50,112 +50,102 @@ const articleContent = `
   </div>
 
   <div class="article-container">
-    <div class="marginalis" id="left-marginalis">
-      <div class="marginalis-content">
-        <!-- Left marginalis content will go here when editor is implemented -->
-      </div>
-    </div>
+    <div class="marginalis" id="left-marginalis"></div>
     <div class="content-container">
-      <div class="content-wrapper">
-        <div class="article-tags">
-          {#each articleTags as tag}
-            <a href={`/?tags=${tag.name}`} class="tag" style="--tag-color: {tag.color}">
-              {#if tag.primaryIcon}
-                <IconifyIcon icon={tag.primaryIcon} size={14} />
-              {/if}
-              {tag.name}
+      <div class="article-tags">
+        {#each articleTags as tag}
+          <a href={`/?tags=${tag.name}`} class="tag" style="--tag-color: {tag.color}">
+            {#if tag.primaryIcon}
+              <IconifyIcon icon={tag.primaryIcon} size={14} />
+            {/if}
+            {tag.name}
+          </a>
+        {/each}
+      </div>
+
+      <div class="article-lead">
+        <p>{article.excerpt}</p>
+      </div>
+
+      <div class="article-content">
+        {@html articleContent}
+      </div>
+
+      <section class="page-section author-section">
+        <div class="author-info">
+          <div class="author-image">
+            <IconifyIcon icon="mdi:flower" size={24} color="primary" />
+          </div>
+          <div class="author-name">
+            <p class="name">Lila</p>
+            <p class="description">Artystyczna dusza lasu</p>
+            <div class="date">
+              <IconifyIcon icon="mdi:calendar" size={14} />
+              <span>
+                {new Date(article.date).toLocaleDateString('pl-PL', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric'
+                })}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="share-links">
+          <span>Udostępnij:</span>
+          <div class="social-icons">
+            <a href="#" class="social-icon" aria-label="Udostępnij na Facebooku">
+              <IconifyIcon icon="mdi:facebook" size={18} />
             </a>
-          {/each}
-        </div>
-
-        <div class="article-lead">
-          <p>{article.excerpt}</p>
-        </div>
-
-        <div class="article-content">
-          {@html articleContent}
-        </div>
-
-        <section class="page-section author-section">
-          <div class="author-info">
-            <div class="author-image">
-              <IconifyIcon icon="mdi:flower" size={24} color="primary" />
-            </div>
-            <div class="author-name">
-              <p class="name">Lila</p>
-              <p class="description">Artystyczna dusza lasu</p>
-              <div class="date">
-                <IconifyIcon icon="mdi:calendar" size={14} />
-                <span>
-                  {new Date(article.date).toLocaleDateString('pl-PL', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                  })}
-                </span>
-              </div>
-            </div>
+            <a href="#" class="social-icon" aria-label="Udostępnij na Twitterze">
+              <IconifyIcon icon="mdi:twitter" size={18} />
+            </a>
+            <a href="#" class="social-icon" aria-label="Udostępnij na Instagramie">
+              <IconifyIcon icon="mdi:instagram" size={18} />
+            </a>
           </div>
+        </div>
+      </section>
 
-          <div class="share-links">
-            <span>Udostępnij:</span>
-            <div class="social-icons">
-              <a href="#" class="social-icon" aria-label="Udostępnij na Facebooku">
-                <IconifyIcon icon="mdi:facebook" size={18} />
+      <section class="page-section reactions-section">
+        <ArticleReactions articleSlug={article.slug} />
+      </section>
+
+      <section class="page-section comments-section">
+        <CommentList articleSlug={article.slug} />
+      </section>
+
+      {#if relatedArticles.length > 0}
+        <section class="page-section related-section">
+          <SectionTitle title="Podobne artykuły" />
+          <div class="related-grid">
+            {#each relatedArticles as relatedArticle}
+              <a href={`/article/${relatedArticle.slug}`} class="related-article">
+                <div class="related-img">
+                  <img src={relatedArticle.coverImage} alt={relatedArticle.title} />
+                </div>
+                <div class="related-content">
+                  <h4>{relatedArticle.title}</h4>
+                  <span class="related-date">
+                    {new Date(relatedArticle.date).toLocaleDateString('pl-PL', {
+                      day: 'numeric',
+                      month: 'long'
+                    })}
+                  </span>
+                </div>
               </a>
-              <a href="#" class="social-icon" aria-label="Udostępnij na Twitterze">
-                <IconifyIcon icon="mdi:twitter" size={18} />
-              </a>
-              <a href="#" class="social-icon" aria-label="Udostępnij na Instagramie">
-                <IconifyIcon icon="mdi:instagram" size={18} />
-              </a>
-            </div>
+            {/each}
           </div>
         </section>
+      {/if}
 
-        <section class="page-section reactions-section">
-          <ArticleReactions articleSlug={article.slug} />
-        </section>
-
-        <section class="page-section comments-section">
-          <CommentList articleSlug={article.slug} />
-        </section>
-
-        {#if relatedArticles.length > 0}
-          <section class="page-section related-section">
-            <SectionTitle title="Podobne artykuły" />
-            <div class="related-grid">
-              {#each relatedArticles as relatedArticle}
-                <a href={`/article/${relatedArticle.slug}`} class="related-article">
-                  <div class="related-img">
-                    <img src={relatedArticle.coverImage} alt={relatedArticle.title} />
-                  </div>
-                  <div class="related-content">
-                    <h4>{relatedArticle.title}</h4>
-                    <span class="related-date">
-                      {new Date(relatedArticle.date).toLocaleDateString('pl-PL', {
-                        day: 'numeric',
-                        month: 'long'
-                      })}
-                    </span>
-                  </div>
-                </a>
-              {/each}
-            </div>
-          </section>
-        {/if}
-
-        <a href="/" class="back-link">
-          <IconifyIcon icon="mdi:arrow-left" size={16} />
-          Wróć do wszystkich artykułów
-        </a>
-      </div>
+      <a href="/" class="back-link">
+        <IconifyIcon icon="mdi:arrow-left" size={16} />
+        Wróć do wszystkich artykułów
+      </a>
     </div>
-    <div class="marginalis" id="right-marginalis">
-      <div class="marginalis-content">
-        <!-- Right marginalis content will go here when editor is implemented -->
-      </div>
-    </div>
+    <div class="marginalis" id="right-marginalis"></div>
   </div>
 
   <div class="article-decoration">
@@ -202,7 +192,6 @@ h1 {
 }
 
 .article-container {
-  margin-top: -3rem;
   position: relative;
   z-index: 3;
   display: grid;
@@ -213,9 +202,13 @@ h1 {
 }
 
 .content-container {
-  width: 100%;
-  max-width: 800px;
-  padding: 0 1rem;
+  position: relative;
+  margin-top: -3rem;
+  padding: 2.5rem;
+  background-color: var(--background-light);
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   z-index: 2;
 }
 
@@ -223,7 +216,6 @@ h1 {
   position: sticky;
   top: 0;
   height: 100vh;
-  background-color: var(--background-light);
   border-right: 1px dashed var(--secondary-light);
   border-left: 1px dashed var(--secondary-light);
   overflow: hidden;
@@ -239,50 +231,12 @@ h1 {
   opacity: 1;
 }
 
-.marginalis::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.marginalis-content {
-  padding: 1rem;
-  height: 100%;
-  width: 100%;
-}
-
 #left-marginalis {
   border-left: none;
 }
 
 #right-marginalis {
   border-right: none;
-}
-
-.content-wrapper {
-  background-color: var(--background-light);
-  border-radius: 0.25rem;
-  padding: 2.5rem;
-  width: 100%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
-}
-
-.content-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
 }
 
 .article-tags {
@@ -547,10 +501,6 @@ h1 {
 
   h1 {
     font-size: 2rem;
-  }
-
-  .content-wrapper {
-    padding: 1.5rem;
   }
 
   .author-section {
