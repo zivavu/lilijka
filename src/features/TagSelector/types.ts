@@ -24,9 +24,10 @@ export interface SelectableTag extends Tag {
 export interface Article {
   slug: string;
   title: string;
-  excerpt: string;
+  subtitle: string;
   coverImage: string;
   date: string;
-  tags: string[]; // tablica id tagów
+  tags: string[];
   readingTime: string;
+  content?: string;
 }

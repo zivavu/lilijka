@@ -1,6 +1,6 @@
 <script lang="ts">
 import IconifyIcon from '$lib/components/IconifyIcon/IconifyIcon.svelte';
-import { exampleTags } from '../../TagSelector/mockTagsData';
+import { exampleTags } from '../../../lib/mockData/mockTagsData';
 import type { Article } from '../../TagSelector/types';
 
 const { article }: { article: Article } = $props();
@@ -22,7 +22,7 @@ const articleTags = exampleTags.filter((tag) => article.tags.includes(tag.id));
 
   <div class="content">
     <h3>{article.title}</h3>
-    <p class="excerpt">{article.excerpt}</p>
+    <p class="excerpt">{article.subtitle}</p>
 
     <div class="card-footer">
       <div class="tags">

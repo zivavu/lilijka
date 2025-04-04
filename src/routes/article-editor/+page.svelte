@@ -1,7 +1,9 @@
 <script lang="ts">
 import IconifyIcon from '$lib/components/IconifyIcon/IconifyIcon.svelte';
+import ArticleMarginalis from '../../features/Article/Marginalis/ArticleMarginalis.svelte';
 import DecorationFlowers from '../../features/shared/DecorationFlowers/DecorationFlowers.svelte';
-import { exampleTags } from '../../features/TagSelector/mockTagsData';
+import { defaultArticleContent } from '../../lib/mockData/mockArticleData';
+import { exampleTags } from '../../lib/mockData/mockTagsData';
 import type { PageProps } from './$types';
 
 const { data }: PageProps = $props();
@@ -12,16 +14,8 @@ let currentArticle = $state(article);
 let isEditing = $state(true);
 let articleTags = $derived(exampleTags.filter((tag) => currentArticle.tags.includes(tag.id)));
 
-// Initial article content (will be editable)
-let articleContent = $state(`
-<p>Wczesnym rankiem, gdy mgła unosi się jeszcze nad wilgotną ściółką, las budzi się do życia. Krople rosy mieniące się na pajęczynach tworzą misterne koronki zawieszone między gałęziami. W takich chwilach czuję, jak granica między światem rzeczywistym a baśniowym zaciera się, pozwalając dostrzec to, co na co dzień ukryte przed naszymi oczami.</p>
-
-<p>Stary las skrywa w sobie opowieści z czasów, gdy ludzka stopa rzadko wkraczała w jego głąb. Każde drzewo nosi na sobie ślady historii - wyryte przez czas zmarszczki kory, blizny po dawnych burzach, delikatne linie oznaczające lata nieurodzaju i obfitości. Wystarczy przyłożyć dłoń do pnia stuletniego dębu, by poczuć jego miarowy, spokojny oddech.</p>
-
-<h2>Zapomniane ścieżki</h2>
-
-<p>Ścieżki, którymi niegdyś wędrowali drwale i zielarki, dziś ledwo widoczne pod warstwą opadłych liści, prowadzą do miejsc, których próżno szukać na współczesnych mapach. To właśnie tam, w sercu starego lasu, znalazłam kamienny krąg - pozostałość po dawnych obrzędach lub może miejsce odpoczynku dla tych, którzy przed wiekami szukali tu schronienia.</p>
-`);
+// Use the content from the article or default if not available
+let articleContent = $state(currentArticle.content || defaultArticleContent);
 
 // Marginalia items will be stored here
 let leftMarginItems = $state<any[]>([]);
@@ -34,7 +28,7 @@ function handleTitleChange(event: Event) {
 
 function handleExcerptChange(event: Event) {
   const target = event.target as HTMLTextAreaElement;
-  currentArticle = { ...currentArticle, excerpt: target.value };
+  currentArticle = { ...currentArticle, subtitle: target.value };
 }
 
 function handleContentChange(event: Event) {
@@ -62,24 +56,21 @@ function addMarginItem(side: 'left' | 'right') {
         type="text"
         class="title-input"
         value={currentArticle.title}
-        on:input={handleTitleChange}
+        oninput={handleTitleChange}
         placeholder="Tytuł artykułu..."
       />
     </div>
   </div>
 
   <div class="article-container">
-    <div class="marginalis" id="left-marginalis">
-      <div class="marginalis-content">
-        <!-- Items will be dynamically added here -->
-        <div class="margin-controls">
-          <button class="add-margin-item" on:click={() => addMarginItem('left')}>
-            <IconifyIcon icon="mdi:plus" size={16} />
-            Dodaj element
-          </button>
-        </div>
+    <ArticleMarginalis id="left-marginalis">
+      <div class="margin-controls">
+        <button class="add-margin-item" on:click={() => addMarginItem('left')}>
+          <IconifyIcon icon="mdi:plus" size={16} />
+          Dodaj element
+        </button>
       </div>
-    </div>
+    </ArticleMarginalis>
 
     <div class="content-container">
       <div class="article-tags">
@@ -100,8 +91,8 @@ function addMarginItem(side: 'left' | 'right') {
       <div class="article-lead">
         <textarea
           class="excerpt-input"
-          value={currentArticle.excerpt}
-          on:input={handleExcerptChange}
+          value={currentArticle.subtitle}
+          oninput={handleExcerptChange}
           placeholder="Krótki opis artykułu..."
           rows="3"
         ></textarea>
@@ -111,7 +102,7 @@ function addMarginItem(side: 'left' | 'right') {
         <textarea
           class="content-input"
           value={articleContent}
-          on:input={handleContentChange}
+          oninput={handleContentChange}
           placeholder="Treść artykułu..."
           rows="20"
         ></textarea>
@@ -133,17 +124,14 @@ function addMarginItem(side: 'left' | 'right') {
       </div>
     </div>
 
-    <div class="marginalis" id="right-marginalis">
-      <div class="marginalis-content">
-        <!-- Items will be dynamically added here -->
-        <div class="margin-controls">
-          <button class="add-margin-item" on:click={() => addMarginItem('right')}>
-            <IconifyIcon icon="mdi:plus" size={16} />
-            Dodaj element
-          </button>
-        </div>
+    <ArticleMarginalis id="right-marginalis">
+      <div class="margin-controls">
+        <button class="add-margin-item" on:click={() => addMarginItem('right')}>
+          <IconifyIcon icon="mdi:plus" size={16} />
+          Dodaj element
+        </button>
       </div>
-    </div>
+    </ArticleMarginalis>
   </div>
 
   <div class="article-decoration">
@@ -229,38 +217,33 @@ function addMarginItem(side: 'left' | 'right') {
 }
 
 .marginalis {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  border-right: 1px dashed var(--secondary-light);
-  border-left: 1px dashed var(--secondary-light);
-  overflow: hidden;
-  opacity: 0.95;
-  transition: opacity 0.3s ease;
-  background-image:
-    linear-gradient(to right, rgba(0, 0, 0, 0.01) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.01) 1px, transparent 1px);
-  background-size: 20px 20px;
+  display: none;
 }
 
-.marginalis-content {
-  padding: 1rem;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+.margin-controls {
+  margin-top: auto;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
-.marginalis:hover {
-  opacity: 1;
+.add-margin-item {
+  padding: 0.5rem 1rem;
+  background-color: var(--background-light);
+  border: 1px dashed var(--secondary);
+  border-radius: 0.25rem;
+  color: var(--text-light);
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
 }
 
-#left-marginalis {
-  border-left: none;
-}
-
-#right-marginalis {
-  border-right: none;
+.add-margin-item:hover {
+  background-color: var(--background);
+  color: var(--primary);
+  border-color: var(--primary-light);
 }
 
 .article-tags {
@@ -333,32 +316,6 @@ function addMarginItem(side: 'left' | 'right') {
   outline: none;
   border-color: var(--primary-light);
   box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
-}
-
-.margin-controls {
-  margin-top: auto;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.add-margin-item {
-  padding: 0.5rem 1rem;
-  background-color: var(--background-light);
-  border: 1px dashed var(--secondary);
-  border-radius: 0.25rem;
-  color: var(--text-light);
-  font-size: 0.8rem;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.2s ease;
-}
-
-.add-margin-item:hover {
-  background-color: var(--background);
-  color: var(--primary);
-  border-color: var(--primary-light);
 }
 
 .editor-controls {
@@ -444,10 +401,6 @@ function addMarginItem(side: 'left' | 'right') {
 
   .article-container {
     grid-template-columns: 0fr minmax(320px, 1fr) 0fr;
-  }
-
-  .marginalis {
-    display: none;
   }
 
   .content-container {

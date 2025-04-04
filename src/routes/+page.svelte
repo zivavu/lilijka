@@ -2,8 +2,8 @@
 import { goto } from '$app/navigation';
 import { page } from '$app/state';
 import ArticlesGrid from '../features/ArticlesGrid/ArticlesGrid.svelte';
-import { exampleArticles } from '../features/ArticlesGrid/mockArticleData';
-import { exampleTags } from '../features/TagSelector/mockTagsData';
+import { exampleArticles } from '../lib/mockData/mockArticleData';
+import { exampleTags } from '../lib/mockData/mockTagsData';
 import TagSelector from '../features/TagSelector/TagSelector.svelte';
 import type { Article } from '../features/TagSelector/types';
 

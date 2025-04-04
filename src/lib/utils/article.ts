@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
-import { exampleArticles } from '../../features/ArticlesGrid/mockArticleData';
 import type { Article } from '../../features/TagSelector/types';
+import { defaultArticleContent, exampleArticles } from '../mockData/mockArticleData';
 
 /**
  * Finds an article by its slug and optionally related articles
@@ -52,11 +52,12 @@ export const createNewArticle = (): Article => {
   return {
     slug: `draft-${Date.now()}`,
     title: 'Nowy artykuł',
-    excerpt: 'Krótki opis artykułu...',
+    subtitle: 'Krótki opis artykułu...',
     coverImage:
       'https://images.unsplash.com/photo-1502082553048-f009c37129b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
     date: new Date().toISOString().split('T')[0],
     tags: [],
-    readingTime: '5 min'
+    readingTime: '5 min',
+    content: defaultArticleContent
   };
 };
