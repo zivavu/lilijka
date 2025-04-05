@@ -1,5 +1,6 @@
 <script lang="ts">
 import DecorationFlowers from '../shared/DecorationFlowers/DecorationFlowers.svelte';
+
 const { activeRoute = '/' }: { activeRoute?: string } = $props();
 </script>
 
@@ -17,14 +18,7 @@ const { activeRoute = '/' }: { activeRoute?: string } = $props();
       <a href="/contact" class={activeRoute === '/contact' ? 'active' : ''}>Kontakt</a>
     </div>
   </div>
-  <DecorationFlowers
-    count={70}
-    minOpacity={0.2}
-    maxOpacity={0.6}
-    minSize={8}
-    maxSize={30}
-    zIndex={0}
-  />
+  <DecorationFlowers count={50} minOpacity={0.1} maxOpacity={0.3} zIndex={0} />
 </nav>
 
 <style>

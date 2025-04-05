@@ -4,7 +4,7 @@ import ArticleMarginalis from '../../../features/Article/Marginalis/ArticleMargi
 import DecorationFlowers from '../../../features/shared/DecorationFlowers/DecorationFlowers.svelte';
 import { defaultArticleContent } from '../../../lib/mockData/mockArticleData';
 import { exampleTags } from '../../../lib/mockData/mockTagsData';
-import type { PageProps } from '../$types';
+import type { PageProps } from './$types';
 
 const { data }: PageProps = $props();
 const { article } = data;
@@ -51,7 +51,7 @@ function handleContentChange(event: Event) {
   </div>
 
   <div class="article-container">
-    <ArticleMarginalis></ArticleMarginalis>
+    <ArticleMarginalis articleSlug={currentArticle.slug} isEditing={true}></ArticleMarginalis>
 
     <div class="content-container">
       <div class="article-tags">
@@ -105,7 +105,7 @@ function handleContentChange(event: Event) {
       </div>
     </div>
 
-    <ArticleMarginalis></ArticleMarginalis>
+    <ArticleMarginalis articleSlug={currentArticle.slug} isEditing={true}></ArticleMarginalis>
   </div>
 
   <div class="article-decoration">

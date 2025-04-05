@@ -1,10 +1,10 @@
 /* Vintage Color Palette - Updated based on artwork & feedback */
 :root {
   /* Primary (Deep Muted Green) and variants */
-  --primary: hsl(150, 25%, 35%); /* Changed from Mauve */
-  --primary-light: hsl(150, 25%, 50%);
-  --primary-dark: hsl(150, 30%, 25%);
-  --primary-rgb: 74, 119, 96; /* RGB for primary (approx) */
+  --primary: hsl(1, 98%, 19%);
+  --primary-light: hsl(1, 98%, 29%);
+  --primary-dark: hsl(1, 98%, 12%);
+  --primary-rgb: 145, 28, 14; /* RGB for primary (approx) */
 
   /* Secondary (Muted Gold/Ochre) and variants */
   --secondary: hsl(40, 45%, 60%); /* Adjusted from Pale Gold */

@@ -149,38 +149,6 @@ function handleClick() {
   content: none;
 }
 
-.tag-wrapper:hover::after {
-  content: attr(data-description);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-8px);
-  width: max-content;
-  max-width: 220px;
-  background-color: var(--background-dark);
-  color: var(--text-light);
-  font-size: 0.8rem;
-  padding: 0.6rem 0.8rem;
-  text-align: center;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  font-style: italic;
-  line-height: 1.4;
-  border: 1px solid var(--secondary);
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity 0.2s ease,
-    visibility 0.2s ease;
-  white-space: normal;
-}
-
-.tag-wrapper:hover::after {
-  opacity: 1;
-  visibility: visible;
-}
-
 .tag:hover {
   box-shadow:
     0 3px 6px rgba(0, 0, 0, 0.1),

@@ -19,7 +19,7 @@ const formattedDate = new Date(date).toLocaleDateString('pl-PL', {
       <IconifyIcon icon="mdi:flower" size={24} color="primary" />
     </div>
     <div class="author-name">
-      <p class="name">Lila</p>
+      <p class="name">Lilianna Stepczyńska</p>
       <p class="description">Artystyczna dusza lasu</p>
       <div class="date">
         <IconifyIcon icon="mdi:calendar" size={14} />

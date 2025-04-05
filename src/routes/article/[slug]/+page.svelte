@@ -31,14 +31,14 @@ const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
   <div class="article-header" style="background-image: url({article.coverImage})">
     <div class="overlay"></div>
     <h1 style="color: var(--background); z-index: 3; margin-bottom: 6rem;">{article.title}</h1>
-    <a href={`/article-editor?slug=${article.slug}`} class="edit-article-button">
+    <a href={`/article-editor/${article.slug}`} class="edit-article-button">
       <IconifyIcon icon="mdi:pencil" size={16} />
       <span>Edytuj</span>
     </a>
   </div>
 
   <div class="article-container">
-    <ArticleMarginalis articleSlug={article.slug} />
+    <ArticleMarginalis articleSlug={article.slug} isEditing={true} />
     <div class="content-container">
       <div class="article-tags">
         {#each articleTags as tag}
@@ -80,7 +80,7 @@ const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
         Wróć do wszystkich artykułów
       </a>
     </div>
-    <ArticleMarginalis articleSlug={article.slug} />
+    <ArticleMarginalis articleSlug={article.slug} isEditing={true} />
   </div>
 
   <div class="article-decoration">
