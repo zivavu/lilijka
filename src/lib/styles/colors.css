@@ -1,28 +1,29 @@
-/* Vintage Color Palette */
+/* Vintage Color Palette - Updated based on artwork & feedback */
 :root {
-  /* Primary (Terracotta) and variants */
-  --primary: hsl(20, 67%, 47%);
-  --primary-light: hsl(20, 65%, 60%);
-  --primary-dark: hsl(20, 70%, 35%);
-  --primary-dark-rgb: 143, 56, 15; /* RGB values for primary-dark for use with rgba() */
+  /* Primary (Deep Muted Green) and variants */
+  --primary: hsl(150, 25%, 35%); /* Changed from Mauve */
+  --primary-light: hsl(150, 25%, 50%);
+  --primary-dark: hsl(150, 30%, 25%);
+  --primary-rgb: 74, 119, 96; /* RGB for primary (approx) */
 
-  /* Secondary (Pale Gold) and variants */
-  --secondary: hsl(37, 49%, 69%);
-  --secondary-light: hsl(37, 50%, 80%);
-  --secondary-dark: hsl(37, 55%, 55%);
+  /* Secondary (Muted Gold/Ochre) and variants */
+  --secondary: hsl(40, 45%, 60%); /* Adjusted from Pale Gold */
+  --secondary-light: hsl(40, 50%, 75%);
+  --secondary-dark: hsl(40, 40%, 48%);
 
-  /* Background colors (based on parchment) */
-  --background: hsl(33, 63%, 95%);
-  --background-light: hsl(33, 63%, 98%);
-  --background-dark: hsl(33, 63%, 90%);
+  /* Background colors (Slightly warmer parchment) */
+  --background: hsl(35, 50%, 94%); /* Adjusted from original parchment */
+  --background-light: hsl(35, 50%, 97%);
+  --background-dark: hsl(35, 45%, 90%);
 
   /* Text colors */
   --text: var(--dark-sepia);
-  --text-light: hsl(15, 47%, 25%);
-  --text-lighter: hsl(15, 47%, 35%);
+  --text-light: hsl(25, 30%, 35%); /* Adjusted */
+  --text-lighter: hsl(25, 30%, 45%); /* Adjusted */
 
   /* Other colors */
-  --cream: hsl(35, 65%, 89%);
-  --coffee: hsl(17, 30%, 34%);
-  --dark-sepia: hsl(15, 47%, 12%);
+  --cream: hsl(35, 65%, 89%); /* Kept original */
+  --coffee: hsl(20, 35%, 30%); /* Darker, richer brown */
+  --dark-sepia: hsl(25, 40%, 15%); /* Adjusted */
+  --gold-accent: hsl(45, 70%, 55%); /* New gold accent */
 }

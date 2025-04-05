@@ -4,14 +4,12 @@ const { activeRoute = '/' }: { activeRoute?: string } = $props();
 </script>
 
 <nav class="navbar dark-texture">
-  <div class="container">
-    <div class="brand">
-      <a href="/">
-        <span class="brand-decoration left">✿</span>
-        Lilijka
-        <span class="brand-decoration right">✿</span>
-      </a>
-    </div>
+  <div class="container brand">
+    <a href="/">
+      <span class="brand-decoration left">✿</span>
+      Lilijka
+      <span class="brand-decoration right">✿</span>
+    </a>
 
     <div class="nav-links">
       <a href="/" class={activeRoute === '/' ? 'active' : ''}>Strona główna</a>
@@ -35,6 +33,7 @@ const { activeRoute = '/' }: { activeRoute?: string } = $props();
   border-bottom: 1px solid var(--secondary-dark);
   position: relative;
   overflow: hidden;
+  z-index: 100;
 }
 
 .container {

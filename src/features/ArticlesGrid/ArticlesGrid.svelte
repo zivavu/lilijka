@@ -38,11 +38,9 @@ const { articles }: { articles: Article[] } = $props();
 .articles-grid-section {
   padding: 2rem 0 4rem;
   background-color: var(--background);
-  background-image: radial-gradient(var(--cream) 1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position: 0 0;
-  background-repeat: repeat;
-  background-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cg fill='%23${encodeURIComponent(getComputedStyle(document.documentElement).getPropertyValue('--cream').trim().substring(1))}' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M0 0h4v4H0V0zm4 4h4v4H4V4z'/%3E%3C/g%3E%3C/svg%3E");
+  background-blend-mode: overlay;
+  border-top: 1px solid var(--secondary-light);
 }
 
 .container {
@@ -56,7 +54,7 @@ const { articles }: { articles: Article[] } = $props();
   align-items: center;
   justify-content: center;
   margin-bottom: 3rem;
-  color: var(--coffee);
+  color: var(--text);
   font-weight: normal;
   font-size: 1.6rem;
 }
@@ -66,12 +64,12 @@ const { articles }: { articles: Article[] } = $props();
   background: linear-gradient(
     to var(--direction, right),
     transparent,
-    var(--secondary),
+    var(--gold-accent),
     transparent
   );
   flex-grow: 1;
-  margin: 0 1rem;
-  opacity: 0.5;
+  margin: 0 1.5rem;
+  opacity: 0.6;
 }
 
 .title-line:first-child {
@@ -87,21 +85,21 @@ const { articles }: { articles: Article[] } = $props();
 
 .title-text::before,
 .title-text::after {
-  content: '✿';
+  content: '✧';
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 0.8rem;
-  color: var(--primary-light);
-  opacity: 0.8;
+  font-size: 1rem;
+  color: var(--primary);
+  opacity: 0.9;
 }
 
 .title-text::before {
-  left: -1.5rem;
+  left: -2rem;
 }
 
 .title-text::after {
-  right: -1.5rem;
+  right: -2rem;
 }
 
 .articles-grid {

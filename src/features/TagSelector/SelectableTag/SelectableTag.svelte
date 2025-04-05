@@ -117,22 +117,21 @@ function handleClick() {
 <style>
 .tag {
   position: relative;
-  background-color: var(--background-light);
-  background-image: linear-gradient(
-    45deg,
-    rgba(255, 223, 185, 0.201) 0%,
-    rgba(255, 209, 148, 0.15) 100%
-  );
+  background-color: var(--background);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.015) 1px, transparent 1px);
+  background-size: 2px 2px;
   border: none;
   width: 160px;
   height: 100%;
   padding: 0.8rem 0;
   cursor: pointer;
-  border-radius: 0.25rem;
+  border-radius: 3px 10px 3px 10px;
   transition: all 0.3s ease;
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.05),
-    inset 0 0 0 1px var(--secondary);
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px color-mix(in srgb, var(--secondary-dark) 50%, transparent);
   text-align: center;
   overflow: hidden;
 }
@@ -147,55 +146,55 @@ function handleClick() {
 }
 
 .tag::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  right: 2px;
-  bottom: 2px;
-  border: 1px dashed var(--secondary-dark);
-  opacity: 0.4;
-  pointer-events: none;
+  content: none;
 }
 
-.tag[data-description]:hover::before {
+.tag-wrapper:hover::after {
   content: attr(data-description);
   position: absolute;
-  top: -5px;
+  bottom: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(-100%);
+  transform: translateX(-50%) translateY(-8px);
   width: max-content;
   max-width: 220px;
-  background-color: var(--background-light);
-  color: var(--coffee);
+  background-color: var(--background-dark);
+  color: var(--text-light);
   font-size: 0.8rem;
   padding: 0.6rem 0.8rem;
   text-align: center;
-  border-radius: 2px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 0.25rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   font-style: italic;
   line-height: 1.4;
   border: 1px solid var(--secondary);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+  white-space: normal;
+}
+
+.tag-wrapper:hover::after {
+  opacity: 1;
+  visibility: visible;
 }
 
 .tag:hover {
   box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.08),
+    0 3px 6px rgba(0, 0, 0, 0.1),
     inset 0 0 0 1px var(--secondary-dark);
+  transform: translateY(-2px);
 }
 
 .tag.selected {
-  background-color: var(--cream);
-  background-image: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.5) 0%,
-    color-mix(in srgb, var(--tag-color, var(--primary)) 15%, transparent) 100%
-  );
+  background-color: color-mix(in srgb, var(--tag-color, var(--primary)) 20%, var(--background));
+  background-image: none;
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.1),
-    inset 0 0 0 1px var(--tag-color, var(--primary));
+    inset 0 0 0 1.5px var(--tag-color, var(--primary));
+  transform: translateY(-1px);
 }
 
 .tag-content {
@@ -221,7 +220,11 @@ function handleClick() {
 }
 
 :global(.secondary-icon) {
-  color: var(--tag-color, var(--primary)) !important;
+  color: color-mix(
+    in srgb,
+    var(--tag-color, var(--primary)) 70%,
+    var(--background-dark)
+  ) !important;
   filter: blur(0.5px);
 }
 

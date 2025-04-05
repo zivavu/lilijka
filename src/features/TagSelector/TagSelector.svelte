@@ -45,17 +45,13 @@ function toggleTag(id: string) {
 <style>
 .tag-selector {
   padding: 2.5rem 1rem 3rem;
-  background-color: var(--background);
+  background-color: var(--background-dark);
   position: relative;
   background-image:
-    radial-gradient(var(--cream) 1px, transparent 1px),
-    radial-gradient(var(--cream) 1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position:
-    0 0,
-    10px 10px;
-  background-repeat: repeat;
-  background-blend-mode: multiply;
+    linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+  background-size: 3px 3px;
+  border-bottom: 2px solid var(--secondary-dark);
 }
 
 .forest-footer {
@@ -63,20 +59,29 @@ function toggleTag(id: string) {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 15px;
-  background-image: repeating-linear-gradient(
-    90deg,
-    var(--secondary-dark) 0px,
-    var(--secondary-dark) 2px,
-    transparent 2px,
-    transparent 8px
-  );
-  opacity: 0.3;
+  height: 10px;
+  background-image:
+    linear-gradient(
+      45deg,
+      var(--gold-accent) 25%,
+      transparent 25%,
+      transparent 75%,
+      var(--gold-accent) 75%
+    ),
+    linear-gradient(
+      -45deg,
+      var(--gold-accent) 25%,
+      transparent 25%,
+      transparent 75%,
+      var(--gold-accent) 75%
+    );
+  background-size: 10px 10px;
+  opacity: 0.6;
 }
 
 h2 {
   text-align: center;
-  color: var(--coffee);
+  color: var(--text);
   font-size: 1.5rem;
   font-weight: 400;
   margin-bottom: 2.5rem;
@@ -87,20 +92,20 @@ h2 {
 
 h2::before,
 h2::after {
-  content: '✿';
+  content: '✧';
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 0.9rem;
-  color: var(--primary-light);
+  font-size: 1.2rem;
+  color: var(--primary);
 }
 
 h2::before {
-  left: calc(50% - 120px);
+  left: calc(50% - 100px);
 }
 
 h2::after {
-  right: calc(50% - 120px);
+  right: calc(50% - 100px);
 }
 
 .tag-container {
